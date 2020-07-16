@@ -7,7 +7,7 @@ import {
     Put,
     Delete,
 } from 'routing-controllers';
-import { getAmazonItem } from '../services/AmazonService';
+import { getAmazonItem, getAndSaveAmazonItem } from '../services/AmazonService';
 
 @Controller()
 export class AmazonController {
@@ -22,9 +22,9 @@ export class AmazonController {
         return await getAmazonItem(asinQuery);
     }
 
-    @Post('/users')
-    post(@Body() user: any) {
-        return 'Saving user...';
+    @Post('/api/amazon/:asin')
+    async post(@Param('asin') asin: string) {
+        return await getAndSaveAmazonItem(asin);
     }
 
     @Put('/users/:id')

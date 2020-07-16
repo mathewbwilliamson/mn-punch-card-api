@@ -20,3 +20,10 @@ export const getAmazonItem = async (asin: string) => {
             return apiResponse.body;
         });
 };
+
+export const getAndSaveAmazonItem = async (asin: string) => {
+    const amazonItem = await getAmazonItem(asin);
+
+    // need to call repo and save the item in the DB
+    return amazonItem;
+};
