@@ -6,7 +6,6 @@ import { ProductsModel } from './config/database-connection';
 
 // Controller imports
 import { UserController } from './controllers/AmazonController';
-// import amazonRoutes from './controllers/amazon';
 
 // creates express app, registers all controller routes and returns you express app instance
 const app = createExpressServer({
@@ -14,9 +13,7 @@ const app = createExpressServer({
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(amazonRoutes);
 
-console.log('\x1b[41m%s \x1b[0m', '[matt] Products', ProductsModel);
 app.listen(3000, () => {
     console.log('Example app listening on port 3000!');
 });
