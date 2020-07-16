@@ -7,7 +7,7 @@ import {
     Put,
     Delete,
 } from 'routing-controllers';
-import { amazonRequest } from '../services/AmazonService';
+import { getAmazonItem } from '../services/AmazonService';
 
 @Controller()
 export class AmazonController {
@@ -19,7 +19,7 @@ export class AmazonController {
     @Get('/api/amazon/:asin')
     async get(@Param('asin') asin: string) {
         const asinQuery = asin;
-        return await amazonRequest(asinQuery);
+        return await getAmazonItem(asinQuery);
     }
 
     @Post('/users')

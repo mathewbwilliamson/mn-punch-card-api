@@ -1,6 +1,6 @@
 import unirest from 'unirest';
 
-export const amazonRequest = async (asin: string) => {
+export const getAmazonItem = async (asin: string) => {
     return await unirest
         .get('https://amazon-price1.p.rapidapi.com/priceReport')
         .query({
