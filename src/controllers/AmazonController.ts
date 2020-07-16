@@ -10,7 +10,7 @@ import {
 import { amazonRequest } from '../services/AmazonService';
 
 @Controller()
-export class UserController {
+export class AmazonController {
     @Get('/api/amazon')
     getAll() {
         return 'This action returns all users';
