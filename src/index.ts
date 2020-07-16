@@ -1,18 +1,20 @@
+import 'reflect-metadata'; // this shim is required
 import express from 'express';
 import bodyParser from 'body-parser';
+import { createExpressServer } from 'routing-controllers';
 import { ProductsModel } from './config/database-connection';
-const app = express();
 
 // Controller imports
-import amazonRoutes from './controllers/amazon';
+import { UserController } from './controllers/AmazonController';
+// import amazonRoutes from './controllers/amazon';
+
+// creates express app, registers all controller routes and returns you express app instance
+const app = createExpressServer({
+    controllers: [UserController], // we specify controllers we want to use
+});
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(amazonRoutes);
-
-app.get('/', (req, res) => {
-    console.log('\x1b[41m%s \x1b[0m', '[matt] BASIC ROUTE');
-    res.send('Hello World!');
-});
+// app.use(amazonRoutes);
 
 console.log('\x1b[41m%s \x1b[0m', '[matt] Products', ProductsModel);
 app.listen(3000, () => {
