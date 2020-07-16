@@ -7,17 +7,19 @@ import {
     Put,
     Delete,
 } from 'routing-controllers';
+import { amazonRequest } from '../services/AmazonService';
 
 @Controller()
 export class UserController {
-    @Get('/users')
+    @Get('/api/amazon')
     getAll() {
         return 'This action returns all users';
     }
 
-    @Get('/users/:id')
-    getOne(@Param('id') id: number) {
-        return 'This action returns user #' + id;
+    @Get('/api/amazon/:asin')
+    async get(@Param('asin') asin: string) {
+        const asinQuery = asin;
+        return await amazonRequest(asinQuery);
     }
 
     @Post('/users')
