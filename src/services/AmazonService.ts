@@ -1,4 +1,6 @@
 import unirest from 'unirest';
+import { saveAmazonItem } from '../repositories/AmazonRepo';
+import { RawAmazonRequestBody } from '../types/amazonTypes';
 
 export const getAmazonItem = async (asin: string) => {
     return await unirest
@@ -13,7 +15,7 @@ export const getAmazonItem = async (asin: string) => {
                 'baa201456amshfc3a4b8c4e76b2bp13db6cjsnc31bfcd08549',
             useQueryString: true,
         })
-        .end((apiResponse: any) => {
+        .end((apiResponse: unirestResponse<RawAmazonRequestBody>) => {
             if (apiResponse.error) {
                 throw new Error(apiResponse.error);
             }
@@ -22,8 +24,9 @@ export const getAmazonItem = async (asin: string) => {
 };
 
 export const getAndSaveAmazonItem = async (asin: string) => {
-    const amazonItem = await getAmazonItem(asin);
+    const amazonItem = (await getAmazonItem(asin)) as RawAmazonRequestBody;
 
     // need to call repo and save the item in the DB
+    saveAmazonItem(amazonItem);
     return amazonItem;
 };
