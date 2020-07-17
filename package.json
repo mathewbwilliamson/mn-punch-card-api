@@ -37,7 +37,6 @@
         "routing-controllers": "^0.9.0-alpha.4",
         "sequelize": "^6.3.3",
         "tedious": "^8.3.0",
-        "ts-node": "^8.10.2",
-        "unirest": "^0.6.0"
+        "ts-node": "^8.10.2"
     }
 }
