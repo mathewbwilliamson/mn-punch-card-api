@@ -8,4 +8,6 @@ export interface NewProduct {
     price: number;
     title: string;
     imageUrl: string;
+    createdAt: string;
+    createdBy: string;
 }

@@ -24,7 +24,7 @@ export class AmazonController {
         return await getAmazonItem(asinQuery);
     }
 
-    // [matt] THIS NEEDS AN OPTIONAL TITLE to be passed in
+    // [matt] What's a better way to do this?
     @Post('/api/amazon/:asin')
     async post(
         @Param('asin') asin: string,
