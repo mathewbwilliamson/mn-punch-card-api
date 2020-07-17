@@ -30,15 +30,15 @@ export const Products = (sequelize: any) => {
             type: Sequelize.STRING,
             allowNull: false,
         },
-        // updatedAt: {
-        //     type: Sequelize.STRING,
-        // },
         updateSource: {
             type: Sequelize.STRING,
         },
         amazonTitle: {
             type: Sequelize.STRING,
             allowNull: false,
+        },
+        isDeleted: {
+            type: Sequelize.BOOLEAN,
         },
     });
 };

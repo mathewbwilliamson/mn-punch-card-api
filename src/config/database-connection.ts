@@ -14,6 +14,6 @@ export const sequelize = new Sequelize({
 
 export const ProductsModel = Products(sequelize);
 
-sequelize.sync().then(() => {
+sequelize.sync({ force: true }).then(() => {
     console.log(`Database & tables created (if needed)!`);
 });

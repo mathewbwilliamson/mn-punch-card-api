@@ -10,4 +10,5 @@ export interface NewProduct {
     imageUrl: string;
     createdAt: string;
     createdBy: string;
+    updateSource: string;
 }
