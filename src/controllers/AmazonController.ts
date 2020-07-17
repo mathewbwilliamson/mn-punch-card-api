@@ -10,12 +10,13 @@ import {
     JsonController,
 } from 'routing-controllers';
 import { getAmazonItem, getAndSaveAmazonItem } from '../services/AmazonService';
+import { getAllProducts } from '../repositories/AmazonRepo';
 
 @JsonController()
 export class AmazonController {
     @Get('/api/amazon')
-    getAll() {
-        return 'This action returns all users';
+    async getAll() {
+        return await getAllProducts();
     }
 
     @Get('/api/amazon/:asin')

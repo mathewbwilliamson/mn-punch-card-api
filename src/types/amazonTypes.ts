@@ -1,7 +1,8 @@
 export interface PriceInformation {
-    priceAmazon: number;
-    priceNew?: number;
-    priceUsed?: number;
+    current_price: number;
+    previous_price: number;
+    checkout_discount: number;
+    currency: string;
 }
 
 export interface PriceWithCreation {
@@ -16,12 +17,14 @@ export interface ExtendedPriceInformation {
 }
 
 export interface RawAmazonRequestBody {
+    error: boolean;
     asin: string;
-    createdAt: string;
-    currencySymbol: string;
     title: string;
+    images: string[];
+    full_link: string;
+    description: string;
     prices: PriceInformation;
-    lastPrice: PriceInformation;
-    highestPricing: ExtendedPriceInformation;
-    lowestPricing: ExtendedPriceInformation;
+    prime: boolean;
+    amazon_choice: boolean;
+    out_of_stock: boolean;
 }
