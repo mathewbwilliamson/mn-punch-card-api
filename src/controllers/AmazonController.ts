@@ -6,10 +6,12 @@ import {
     Post,
     Put,
     Delete,
+    BodyParam,
+    JsonController,
 } from 'routing-controllers';
 import { getAmazonItem, getAndSaveAmazonItem } from '../services/AmazonService';
 
-@Controller()
+@JsonController()
 export class AmazonController {
     @Get('/api/amazon')
     getAll() {
@@ -22,9 +24,13 @@ export class AmazonController {
         return await getAmazonItem(asinQuery);
     }
 
+    // [matt] THIS NEEDS AN OPTIONAL TITLE to be passed in
     @Post('/api/amazon/:asin')
-    async post(@Param('asin') asin: string) {
-        return await getAndSaveAmazonItem(asin);
+    async post(
+        @Param('asin') asin: string,
+        @Body() titleBody: { title: string }
+    ) {
+        return await getAndSaveAmazonItem(asin, titleBody.title);
     }
 
     @Put('/users/:id')

@@ -22,10 +22,10 @@ export const getAmazonItem = async (asin: string) => {
     ).data as RawAmazonRequestBody;
 };
 
-export const getAndSaveAmazonItem = async (asin: string) => {
+export const getAndSaveAmazonItem = async (asin: string, title?: string) => {
     const amazonItem = await getAmazonItem(asin);
 
     // need to call repo and save the item in the DB
-    saveAmazonItem(amazonItem);
+    saveAmazonItem(amazonItem, title);
     return amazonItem;
 };
