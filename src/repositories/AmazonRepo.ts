@@ -30,5 +30,6 @@ export const getAllProducts = () => {
         where: {
             isDeleted: null,
         },
+        raw: true,
     });
 };
