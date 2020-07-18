@@ -10,7 +10,7 @@ import {
     JsonController,
 } from 'routing-controllers';
 import { getAmazonItem, getAndSaveAmazonItem } from '../services/AmazonService';
-import { getAllProducts } from '../repositories/AmazonRepo';
+import { getAllProducts, transformItem } from '../repositories/AmazonRepo';
 
 @JsonController()
 export class AmazonController {
@@ -22,7 +22,8 @@ export class AmazonController {
     @Get('/api/amazon/:asin')
     async get(@Param('asin') asin: string) {
         const asinQuery = asin;
-        return await getAmazonItem(asinQuery);
+        const rawAmazonItem = await getAmazonItem(asinQuery);
+        return transformItem(rawAmazonItem);
     }
 
     // [matt] What's a better way to do this?

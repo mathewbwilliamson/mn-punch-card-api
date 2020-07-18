@@ -2,7 +2,7 @@ import { RawAmazonRequestBody } from '../types/amazonTypes';
 import { NewProduct } from '../types/productTypes';
 import { sequelize } from '../config/database-connection';
 
-export const saveAmazonItem = (
+export const transformItem = (
     amazonItem: RawAmazonRequestBody,
     title?: string
 ) => {
@@ -19,7 +19,14 @@ export const saveAmazonItem = (
         createdBy: 'ME', // [matt] THIS NEEDS TO CHANGE
         updateSource: 'manual',
     };
+    return transformedItem;
+};
 
+export const saveAmazonItem = (
+    amazonItem: RawAmazonRequestBody,
+    title?: string
+) => {
+    const transformedItem = transformItem(amazonItem, title);
     sequelize.models.Products.create({
         ...transformedItem,
     }).catch((err) => console.log(err));
