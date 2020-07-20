@@ -27,10 +27,14 @@ export const saveAmazonItem = (
     title?: string
 ) => {
     const transformedItem = transformItem(amazonItem, title);
-    sequelize.models.Products.create({
-        ...transformedItem,
-    }).catch((err) => console.log(err));
+    saveItem(transformedItem);
 };
+
+export function saveItem(amazonItem: NewProduct) {
+    return sequelize.models.Products.create(amazonItem).catch((err) =>
+        console.log(err)
+    );
+}
 
 export const getAllProducts = () => {
     return sequelize.models.Products.findAll({

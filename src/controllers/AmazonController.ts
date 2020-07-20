@@ -6,17 +6,28 @@ import {
     Post,
     Put,
     Delete,
-    BodyParam,
     JsonController,
 } from 'routing-controllers';
 import { getAmazonItem, getAndSaveAmazonItem } from '../services/AmazonService';
-import { getAllProducts, transformItem } from '../repositories/AmazonRepo';
+import {
+    getAllProducts,
+    transformItem,
+    saveAmazonItem,
+    saveItem,
+} from '../repositories/AmazonRepo';
+import { NewProduct } from '../types/productTypes';
 
 @JsonController()
 export class AmazonController {
     @Get('/api/amazon')
     async getAll() {
         return await getAllProducts();
+    }
+
+    @Post('/api/amazon')
+    async postProduct(@Body() newProduct: NewProduct) {
+        console.log('\x1b[41m%s \x1b[0m', '[matt] THIS IS NEW', newProduct);
+        return await saveItem(newProduct);
     }
 
     @Get('/api/amazon/:asin')
