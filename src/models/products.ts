@@ -15,6 +15,9 @@ export const Products = (sequelize: any) => {
         price: {
             type: Sequelize.INTEGER,
         },
+        calculatedPrice: {
+            type: Sequelize.INTEGER,
+        },
         asin: {
             type: Sequelize.STRING,
             allowNull: false,
