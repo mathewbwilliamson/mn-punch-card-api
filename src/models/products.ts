@@ -15,7 +15,7 @@ export const Products = (sequelize: any) => {
         price: {
             type: Sequelize.INTEGER,
         },
-        calculatedPrice: {
+        rewardCardPrice: {
             type: Sequelize.INTEGER,
         },
         asin: {
