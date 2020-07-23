@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-import { Products } from '../models/Products';
+import { Products } from '../models/other';
 import dotenv from 'dotenv';
 dotenv.config();
 
