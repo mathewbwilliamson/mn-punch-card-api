@@ -5,9 +5,9 @@ dotenv.config();
 
 export const sequelize = new Sequelize({
     dialect: 'mssql',
-    host: 'reward-cabinet-new-tampa.database.windows.net',
-    database: 'MathnasiumRewardCabinet',
-    username: 'api_user',
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     logging: true,
 });
