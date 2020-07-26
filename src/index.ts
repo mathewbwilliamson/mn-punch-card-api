@@ -1,6 +1,9 @@
 import 'reflect-metadata'; // this shim is required
 import bodyParser from 'body-parser';
 import { createExpressServer } from 'routing-controllers';
+import https from 'https';
+import fs from 'fs';
+import path from 'path';
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -24,6 +27,20 @@ app.use((err: Error, req: Express.Request, res: any, next: NextFunction) => {
     res.status(500);
     res.render('error', { error: err });
 });
+
+const httpsConfig = {
+    key: fs
+        .readFileSync(path.resolve(process.env.SSL_KEY_PATH), 'utf8')
+        .toString(),
+    cert: fs
+        .readFileSync(
+            path.resolve(process.cwd(), process.env.SSL_CERT_PATH),
+            'utf8'
+        )
+        .toString(),
+};
+
+https.createServer(httpsConfig, app.callback()).listen('443');
 
 app.listen(process.env.API_PORT, () => {
     console.log(`Example app listening on port ${process.env.API_PORT}!`);
