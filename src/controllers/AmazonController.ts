@@ -14,6 +14,7 @@ import {
     transformItem,
     saveAmazonItem,
     saveItem,
+    deleteItem,
 } from '../repositories/AmazonRepo';
 import { NewProduct } from '../types/productTypes';
 
@@ -37,7 +38,6 @@ export class AmazonController {
         return transformItem(rawAmazonItem);
     }
 
-    // [matt] What's a better way to do this?
     @Post('/api/amazon/:asin')
     async post(
         @Param('asin') asin: string,
@@ -51,8 +51,8 @@ export class AmazonController {
         return 'Updating a user...';
     }
 
-    @Delete('/users/:id')
-    remove(@Param('id') id: number) {
-        return 'Removing user...';
+    @Delete('/api/amazon/:id')
+    async remove(@Param('id') id: number) {
+        return await deleteItem(id);
     }
 }
