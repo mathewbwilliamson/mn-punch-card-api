@@ -28,19 +28,19 @@ app.use((err: Error, req: Express.Request, res: any, next: NextFunction) => {
     res.render('error', { error: err });
 });
 
-const httpsConfig = {
-    key: fs
-        .readFileSync(path.resolve(process.env.SSL_KEY_PATH), 'utf8')
-        .toString(),
-    cert: fs
-        .readFileSync(
-            path.resolve(process.cwd(), process.env.SSL_CERT_PATH),
-            'utf8'
-        )
-        .toString(),
-};
+// const httpsConfig = {
+//     key: fs
+//         .readFileSync(path.resolve(process.env.SSL_KEY_PATH), 'utf8')
+//         .toString(),
+//     cert: fs
+//         .readFileSync(
+//             path.resolve(process.cwd(), process.env.SSL_CERT_PATH),
+//             'utf8'
+//         )
+//         .toString(),
+// };
 
-https.createServer(httpsConfig, app.callback()).listen('443');
+// https.createServer(httpsConfig, app.callback()).listen('443');
 
 app.listen(process.env.API_PORT, () => {
     console.log(`Example app listening on port ${process.env.API_PORT}!`);

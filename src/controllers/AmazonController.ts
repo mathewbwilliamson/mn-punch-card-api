@@ -15,6 +15,7 @@ import {
     saveAmazonItem,
     saveItem,
     deleteItem,
+    updateItemTitle,
 } from '../repositories/AmazonRepo';
 import { NewProduct } from '../types/productTypes';
 
@@ -46,9 +47,9 @@ export class AmazonController {
         return await getAndSaveAmazonItem(asin, titleBody.title);
     }
 
-    @Put('/users/:id')
-    put(@Param('id') id: number, @Body() user: any) {
-        return 'Updating a user...';
+    @Put('/api/amazon/:id')
+    async put(@Param('id') id: number, @Body() titleBody: { title: string }) {
+        return await updateItemTitle(id, titleBody.title);
     }
 
     @Delete('/api/amazon/:id')

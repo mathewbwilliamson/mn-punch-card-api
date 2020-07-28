@@ -50,3 +50,10 @@ export async function deleteItem(id: number) {
     console.log('\x1b[41m%s \x1b[0m', '[matt] thing', thing);
     return await thing.destroy();
 }
+
+export const updateItemTitle = async (id: number, newTitle: string) => {
+    return await sequelize.models.Products.update(
+        { title: newTitle },
+        { where: { id } }
+    );
+};
