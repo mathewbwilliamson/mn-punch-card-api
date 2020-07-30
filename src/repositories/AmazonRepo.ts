@@ -46,9 +46,7 @@ export const getAllProducts = () => {
 };
 
 export async function deleteItem(id: number) {
-    const thing = await sequelize.models.Products.findByPk(id);
-    console.log('\x1b[41m%s \x1b[0m', '[matt] thing', thing);
-    return await thing.destroy();
+    return await sequelize.models.Products.destroy({ where: { id } });
 }
 
 export const updateItemTitle = async (id: number, newTitle: string) => {

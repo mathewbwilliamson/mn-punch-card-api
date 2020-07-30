@@ -24,7 +24,6 @@ export const getAmazonItem = async (asin: string) => {
 
 export const getAndSaveAmazonItem = async (asin: string, title?: string) => {
     const amazonItem = await getAmazonItem(asin);
-    console.log('\x1b[41m%s \x1b[0m', '[matt] amazonItem', amazonItem);
 
     // need to call repo and save the item in the DB
     saveAmazonItem(amazonItem, title);
