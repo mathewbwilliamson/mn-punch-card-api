@@ -1,25 +1,25 @@
-import { saveAmazonItem } from '../repositories/AmazonRepo';
+import {
+    saveAmazonItem,
+    updateItem,
+    transformItem,
+} from '../repositories/AmazonRepo';
 import { RawAmazonRequestBody } from '../types/amazonTypes';
 import axios from 'axios';
 
 export const getAmazonItem = async (asin: string) => {
+    const params = {
+        api_key: process.env.RAINFOREST_KEY,
+        type: 'product',
+        amazon_domain: 'amazon.com',
+        asin,
+    };
     return (
         await axios({
             method: 'GET',
-            url: 'https://amazon-products1.p.rapidapi.com/product',
-            headers: {
-                'content-type': 'application/octet-stream',
-                'x-rapidapi-host': 'amazon-products1.p.rapidapi.com',
-                'x-rapidapi-key':
-                    'baa201456amshfc3a4b8c4e76b2bp13db6cjsnc31bfcd08549',
-                useQueryString: true,
-            },
-            params: {
-                country: 'US',
-                asin,
-            },
+            url: 'https://api.rainforestapi.com/request',
+            params,
         })
-    ).data;
+    ).data as RawAmazonRequestBody;
 };
 
 export const getAndSaveAmazonItem = async (asin: string, title?: string) => {
@@ -28,4 +28,12 @@ export const getAndSaveAmazonItem = async (asin: string, title?: string) => {
     // need to call repo and save the item in the DB
     saveAmazonItem(amazonItem, title);
     return amazonItem;
+};
+
+export const getAmazonItemAndUpdate = async (id: number, asin: string) => {
+    console.log('\x1b[41m%s \x1b[0m', '[matt] id, asin', id, asin);
+    const amazonItem = await getAmazonItem(asin);
+    const transformedItem = transformItem(amazonItem);
+    console.log('\x1b[44m%s \x1b[0m', '[matt] amazonItem', transformedItem);
+    return await updateItem(id, transformedItem);
 };

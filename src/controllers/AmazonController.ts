@@ -8,7 +8,11 @@ import {
     Delete,
     JsonController,
 } from 'routing-controllers';
-import { getAmazonItem, getAndSaveAmazonItem } from '../services/AmazonService';
+import {
+    getAmazonItem,
+    getAndSaveAmazonItem,
+    getAmazonItemAndUpdate,
+} from '../services/AmazonService';
 import {
     getAllProducts,
     transformItem,
@@ -28,7 +32,6 @@ export class AmazonController {
 
     @Post('/api/amazon')
     async postProduct(@Body() newProduct: NewProduct) {
-        console.log('\x1b[41m%s \x1b[0m', '[matt] THIS IS NEW', newProduct);
         return await saveItem(newProduct);
     }
 
@@ -45,6 +48,14 @@ export class AmazonController {
         @Body() titleBody: { title: string }
     ) {
         return await getAndSaveAmazonItem(asin, titleBody.title);
+    }
+
+    @Post('/api/amazon/refresh/:id')
+    async refresh(
+        @Param('id') id: number,
+        @Body() titleBody: { asin: string }
+    ) {
+        return await getAmazonItemAndUpdate(id, titleBody.asin);
     }
 
     @Put('/api/amazon/:id')

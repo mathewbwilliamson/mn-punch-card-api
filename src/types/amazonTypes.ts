@@ -16,15 +16,32 @@ export interface ExtendedPriceInformation {
     priceUsed: PriceWithCreation;
 }
 
+export interface PriceInfo {
+    symbol: string;
+    value: number;
+    currency: string;
+    raw: string;
+}
+
 export interface RawAmazonRequestBody {
-    error: boolean;
-    asin: string;
-    title: string;
-    images: string[];
-    full_link: string;
-    description: string;
-    prices: PriceInformation;
-    prime: boolean;
-    amazon_choice: boolean;
-    out_of_stock: boolean;
+    product: {
+        asin: string;
+        title: string;
+        images: string[];
+        main_image: { link: string };
+        description: string;
+        link: string;
+        feature_bullets_flat: string;
+        buybox_winner: {
+            is_prime: boolean;
+            condition: any;
+            availability: any;
+            fulfillment: any;
+            price: PriceInfo;
+            rrp: any;
+            save: any;
+            shipping: any;
+        };
+        prices: PriceInformation;
+    };
 }
