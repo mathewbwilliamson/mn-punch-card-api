@@ -17,11 +17,6 @@ export const transformItem = (
         createdBy: 'ME', // [matt] THIS NEEDS TO CHANGE
         updateSource: 'manual',
     };
-    console.log(
-        '\x1b[42m%s \x1b[0m',
-        '[matt] transformedItem',
-        transformedItem
-    );
     return transformedItem;
 };
 
@@ -59,10 +54,9 @@ export const updateItemTitle = async (id: number, newTitle: string) => {
     );
 };
 
-// [matt] THIS NEEDS TO BE CHANGED
 export const updateItem = async (id: number, amazonItem: NewProduct) => {
-    console.log('\x1b[42m%s \x1b[0m', '[matt] amazonItem', amazonItem);
-    return await sequelize.models.Products.update(amazonItem, {
+    await sequelize.models.Products.update(amazonItem, {
         where: { id },
     });
+    return amazonItem;
 };
