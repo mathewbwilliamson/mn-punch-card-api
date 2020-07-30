@@ -8,6 +8,7 @@ export interface NewProduct {
     price: number;
     title: string;
     imageUrl: string;
+    link: string;
     createdAt: string;
     createdBy: string;
     updateSource: string;

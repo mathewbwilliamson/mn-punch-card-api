@@ -12,6 +12,7 @@ export const transformItem = (
         imageUrl: amazonItem.product.main_image.link,
         price: amazonItem.product.buybox_winner.price.value,
         title: title || amazonItem.product.title,
+        link: amazonItem.product.link,
         createdAt: new Date().toString(),
         createdBy: 'ME', // [matt] THIS NEEDS TO CHANGE
         updateSource: 'manual',

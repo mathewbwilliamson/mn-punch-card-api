@@ -22,6 +22,9 @@ export const Products = (sequelize: any) => {
             type: Sequelize.STRING,
             allowNull: false,
         },
+        link: {
+            type: Sequelize.STRING,
+        },
         imageUrl: {
             type: Sequelize.STRING,
         },
