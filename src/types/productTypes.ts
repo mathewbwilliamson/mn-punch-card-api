@@ -6,6 +6,7 @@ export interface NewProduct {
     asin: string;
     amazonTitle: string;
     price: number;
+    rewardCardPrice: number;
     title: string;
     imageUrl: string;
     link: string;

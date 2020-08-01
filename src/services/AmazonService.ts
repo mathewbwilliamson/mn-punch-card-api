@@ -31,9 +31,7 @@ export const getAndSaveAmazonItem = async (asin: string, title?: string) => {
 };
 
 export const getAmazonItemAndUpdate = async (id: number, asin: string) => {
-    console.log('\x1b[41m%s \x1b[0m', '[matt] id, asin', id, asin);
     const amazonItem = await getAmazonItem(asin);
     const transformedItem = transformItem(amazonItem);
-    console.log('\x1b[44m%s \x1b[0m', '[matt] amazonItem', transformedItem);
     return await updateItem(id, transformedItem);
 };

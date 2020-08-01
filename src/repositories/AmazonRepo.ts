@@ -1,6 +1,7 @@
 import { RawAmazonRequestBody } from '../types/amazonTypes';
 import { NewProduct, Product } from '../types/productTypes';
 import { sequelize } from '../config/database-connection';
+import { calculateRewardCardPrice } from '../utils/calculateRewardCardPrice';
 
 export const transformItem = (
     amazonItem: RawAmazonRequestBody,
@@ -10,7 +11,10 @@ export const transformItem = (
         asin: amazonItem.product.asin,
         amazonTitle: amazonItem.product.title,
         imageUrl: amazonItem.product.main_image.link,
-        price: amazonItem.product.buybox_winner.price.value,
+        price: Math.ceil(amazonItem.product.buybox_winner.price.value),
+        rewardCardPrice: calculateRewardCardPrice(
+            amazonItem.product.buybox_winner.price.value
+        ),
         title: title || amazonItem.product.title,
         link: amazonItem.product.link,
         createdAt: new Date().toString(),
