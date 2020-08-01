@@ -6,6 +6,11 @@
 -   npm i if needed
 -   PM2: /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2
 
+*   Create an Instance
+
+-   From within the repositories/mn-punch-card-api folder
+-   /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2 start ./src/index.ts
+
 *   List all apps
 
 -   /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2 list
