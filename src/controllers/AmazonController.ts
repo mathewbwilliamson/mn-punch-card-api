@@ -12,6 +12,7 @@ import {
     getAmazonItem,
     getAndSaveAmazonItem,
     getAmazonItemAndUpdate,
+    refreshAllItems,
 } from '../services/AmazonService';
 import {
     getAllProducts,
@@ -25,6 +26,12 @@ import { NewProduct } from '../types/productTypes';
 
 @JsonController()
 export class AmazonController {
+    @Post('/api/amazon/refresh')
+    async refreshAll() {
+        console.log('\x1b[42m%s \x1b[0m', '[matt] Refresh ALL');
+        return await refreshAllItems();
+    }
+
     @Get('/api/amazon')
     async getAll() {
         return await getAllProducts();

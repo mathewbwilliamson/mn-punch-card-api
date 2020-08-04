@@ -47,6 +47,12 @@ export const getAllProducts = () => {
     });
 };
 
+export const getAllAsins = () => {
+    return sequelize.query(
+        'SELECT asin, id, title FROM Products WHERE isDeleted IS NULL'
+    );
+};
+
 export async function deleteItem(id: number) {
     return await sequelize.models.Products.destroy({ where: { id } });
 }
