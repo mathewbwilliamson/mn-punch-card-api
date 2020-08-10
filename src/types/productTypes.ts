@@ -14,3 +14,21 @@ export interface NewProduct {
     createdBy: string;
     updateSource: string;
 }
+
+export interface NewOrder {
+    product: NewProduct;
+    order: OrderProductForm;
+}
+
+export interface OrderProductForm {
+    firstNameOfChild: string;
+    lastNameOfChild: string;
+    firstNameOfParent: string;
+    lastNameOfParent: string;
+    streetAddress: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    emailAddressOfParent: string;
+    parentApproval: boolean;
+}
