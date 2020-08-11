@@ -33,3 +33,4 @@ npm-debug.log
 .DS_Store
 
 .env
+config/config.json
