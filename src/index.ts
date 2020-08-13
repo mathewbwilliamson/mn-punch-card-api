@@ -1,9 +1,6 @@
 import 'reflect-metadata'; // this shim is required
 import bodyParser from 'body-parser';
 import { createExpressServer } from 'routing-controllers';
-import https from 'https';
-import fs from 'fs';
-import path from 'path';
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -26,7 +23,7 @@ app.use((err: Error, req: Express.Request, res: any, next: NextFunction) => {
         return next(err);
     }
     res.status(500);
-    res.render('error', { error: err });
+    console.log('\x1b[43m%s \x1b[0m', 'ERROR', err);
 });
 
 // const httpsConfig = {

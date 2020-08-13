@@ -1,7 +1,8 @@
 import { RawAmazonRequestBody } from '../types/amazonTypes';
-import { NewProduct, Product } from '../types/productTypes';
-import { sequelize } from '../config/database-connection';
+import { NewProduct } from '../types/productTypes';
 import { calculateRewardCardPrice } from '../utils/calculateRewardCardPrice';
+import { Products } from '../../models/Products';
+import db from '../../models';
 
 export const transformItem = (
     amazonItem: RawAmazonRequestBody,
@@ -33,13 +34,13 @@ export const saveAmazonItem = (
 };
 
 export function saveItem(amazonItem: NewProduct) {
-    return sequelize.models.Products.create(amazonItem).catch((err) =>
-        console.log(err)
-    );
+    console.log('\x1b[42m%s \x1b[0m', '[matt] 2a');
+
+    return Products.create(amazonItem).catch((err) => console.log(err));
 }
 
 export const getAllProducts = () => {
-    return sequelize.models.Products.findAll({
+    return Products.findAll({
         where: {
             isDeleted: null,
         },
@@ -48,24 +49,21 @@ export const getAllProducts = () => {
 };
 
 export const getAllAsins = () => {
-    return sequelize.query(
+    return db.sequelize.query(
         'SELECT asin, id, title FROM Products WHERE isDeleted IS NULL'
     );
 };
 
 export async function deleteItem(id: number) {
-    return await sequelize.models.Products.destroy({ where: { id } });
+    return await Products.destroy({ where: { id } });
 }
 
 export const updateItemTitle = async (id: number, newTitle: string) => {
-    return await sequelize.models.Products.update(
-        { title: newTitle },
-        { where: { id } }
-    );
+    return await Products.update({ title: newTitle }, { where: { id } });
 };
 
 export const updateItem = async (id: number, amazonItem: NewProduct) => {
-    await sequelize.models.Products.update(amazonItem, {
+    await Products.update(amazonItem, {
         where: { id },
     });
     return amazonItem;
