@@ -50,33 +50,11 @@ export const getAmazonItemAndUpdate = async (
         const n = 0;
         while (!amazonItem.request_info.success && n < 4) {
             await sleep(3000);
-            console.log(
-                '\x1b[41m%s \x1b[0m',
-                '[matt] WHILE n, id, asin',
-                n,
-                id,
-                asin
-            );
             amazonItem = await getAmazonItem(asin);
         }
         if (!amazonItem.request_info.success) {
-            console.log(
-                '\x1b[41m%s \x1b[0m',
-                '[matt] FULL FAIL n, id, asin',
-                n,
-                id,
-                asin
-            );
-
             throw new Error('Error from the server');
         }
-        console.log(
-            '\x1b[42m%s \x1b[0m',
-            '[matt] amazonItem.request_info',
-            amazonItem.request_info,
-            amazonItem.product.asin,
-            asin
-        );
         const transformedItem = transformItem(amazonItem, title);
         return await updateItem(id, transformedItem);
     } catch (err) {

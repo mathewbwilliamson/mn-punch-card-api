@@ -15,13 +15,11 @@ const db = {
     Sequelize,
     Products: productInit(sequelize),
 };
-console.log('\x1b[41m%s \x1b[0m', '[matt] 4', db.Products);
 
 Object.values(db).forEach((model: any) => {
     if (model.associate) {
         model.associate(db);
     }
 });
-console.log('\x1b[41m%s \x1b[0m', '[matt] 5');
 
 export default db;

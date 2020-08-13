@@ -34,8 +34,6 @@ export const saveAmazonItem = (
 };
 
 export function saveItem(amazonItem: NewProduct) {
-    console.log('\x1b[42m%s \x1b[0m', '[matt] 2a');
-
     return Products.create(amazonItem).catch((err) => console.log(err));
 }
 

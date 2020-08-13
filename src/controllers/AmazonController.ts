@@ -43,8 +43,6 @@ export class AmazonController {
 
     @Get('/api/amazon/:asin')
     async get(@Param('asin') asin: string) {
-        console.log('\x1b[42m%s \x1b[0m', '[matt] GET api/amazon/asin', asin);
-
         const asinQuery = asin;
         const rawAmazonItem = await getAmazonItem(asinQuery);
         return transformItem(rawAmazonItem);
@@ -55,8 +53,6 @@ export class AmazonController {
         @Param('asin') asin: string,
         @Body() titleBody: { title: string }
     ) {
-        console.log('\x1b[42m%s \x1b[0m', '[matt] POST api/amazon/asin', asin);
-
         return await getAndSaveAmazonItem(asin, titleBody.title);
     }
 
