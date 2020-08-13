@@ -35,10 +35,6 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            createdAt: {
-                type: Sequelize.STRING,
-                allowNull: false,
-            },
             updateSource: {
                 type: Sequelize.STRING,
             },

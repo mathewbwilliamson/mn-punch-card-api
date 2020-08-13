@@ -63,7 +63,7 @@ export const productInit = (sequelize: any) => {
                 allowNull: false,
             },
             createdAt: {
-                type: DataTypes.STRING,
+                type: DataTypes.DATE,
                 allowNull: false,
             },
             updateSource: DataTypes.STRING,
@@ -71,7 +71,10 @@ export const productInit = (sequelize: any) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            updatedAt: DataTypes.STRING,
+            updatedAt: {
+                type: DataTypes.DATE,
+                allowNull: false,
+            },
         },
         {
             tableName: 'products',
