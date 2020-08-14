@@ -6,7 +6,7 @@ export const sendEmailForBuyingProduct = async (newOrder: NewOrder) => {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
     const msg = {
-        to: adminUsersForEmails.map((user) => user.email).join(','),
+        to: adminUsersForEmails.map((user) => user.email),
         from: 'Reward Cabinet <email-sender@newtamparewardcabinet.com>',
         subject: `Reward Cabinet Order: ${newOrder.order.firstNameOfChild}`,
         html: `<strong>Reward Cabinet Order</strong><br />
