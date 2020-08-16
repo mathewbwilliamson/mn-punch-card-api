@@ -17,7 +17,7 @@ export const transformItem = (
             amazonItem.product.buybox_winner.price.value
         ),
         title: title || amazonItem.product.title,
-        link: amazonItem.product.link,
+        link: `${amazonItem.product.link}/ref=as_li_tl?ie=UTF8&tag=newtamparewar-20`,
         createdAt: new Date().toString(),
         createdBy: 'ME', // [matt] THIS NEEDS TO CHANGE
         updateSource: 'manual',
