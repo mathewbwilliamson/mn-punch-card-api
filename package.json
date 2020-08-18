@@ -6,7 +6,8 @@
     "scripts": {
         "dev": "npx tsc & nodemon .",
         "build": "npx tsc",
-        "start": "node ."
+        "start": "node .",
+        "migration": "npx sequelize-cli db:migrate"
     },
     "keywords": [],
     "author": "",

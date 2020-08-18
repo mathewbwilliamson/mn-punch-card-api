@@ -1,6 +1,7 @@
 # Deployment
 
 -   Right now, a very manual process.
+-   Don't forget that Dev DB should be pointed at here. Env here should connect to Dev.
 
 -   Go to their terminal and git pull.
 -   npm i if needed
