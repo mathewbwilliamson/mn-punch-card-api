@@ -13,11 +13,11 @@ import {
     getAndSaveAmazonItem,
     getAmazonItemAndUpdate,
     refreshAllItems,
+    getUsage,
 } from '../services/AmazonService';
 import {
     getAllProducts,
     transformItem,
-    saveAmazonItem,
     saveItem,
     deleteItem,
     updateItemTitle,
@@ -29,6 +29,11 @@ export class AmazonController {
     @Post('/api/amazon/refresh')
     async refreshAll() {
         return await refreshAllItems();
+    }
+
+    @Get('/api/amazon/usage')
+    async getUsage() {
+        return getUsage();
     }
 
     @Get('/api/amazon')

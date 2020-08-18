@@ -7,6 +7,10 @@ import {
 } from '../repositories/AmazonRepo';
 import { RawAmazonRequestBody } from '../types/amazonTypes';
 import axios from 'axios';
+import {
+    RainforestAccountRequest,
+    RainforestAccountData,
+} from '../types/generalTypes';
 
 export const getAmazonItem = async (asin: string) => {
     if (!asin) {
@@ -25,6 +29,27 @@ export const getAmazonItem = async (asin: string) => {
             params,
         })
     ).data as RawAmazonRequestBody;
+};
+
+export const getUsage = async () => {
+    const params = {
+        api_key: process.env.RAINFOREST_KEY,
+    };
+    const rainforestAccountReq = (
+        await axios({
+            method: 'GET',
+            url: 'https://api.rainforestapi.com/account',
+            params,
+        })
+    ).data as RainforestAccountRequest;
+
+    return {
+        creditsUsed: rainforestAccountReq.account_info.credits_used,
+        creditsRemaining: rainforestAccountReq.account_info.credits_remaining,
+        creditsLimit: rainforestAccountReq.account_info.credits_limit,
+        overageLimit: rainforestAccountReq.account_info.overage_limit,
+        overageUsed: rainforestAccountReq.account_info.overage_used,
+    } as RainforestAccountData;
 };
 
 export const getAndSaveAmazonItem = async (asin: string, title?: string) => {
