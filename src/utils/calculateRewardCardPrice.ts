@@ -1,3 +1,3 @@
 export const calculateRewardCardPrice = (dollarPrice: number) => {
-    return Math.ceil(dollarPrice * 1.08);
+    return Math.ceil(dollarPrice * 1.085);
 };
