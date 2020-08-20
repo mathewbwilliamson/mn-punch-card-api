@@ -14,6 +14,10 @@ Let's create a model named User.
     Create a model file user in models folder;
     Create a migration file with name like XXXXXXXXXXXXXX-create-user.js in migrations folder.
 
+# Run Migrations
+
+npx sequelize-cli db:migrate
+
 # Undoing Migrations
 
 Now our table has been created and saved in database. With migration you can revert to old state by just running a command.
