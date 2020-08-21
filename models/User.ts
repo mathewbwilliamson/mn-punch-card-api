@@ -6,6 +6,7 @@ export interface UserAttributes {
     username: string;
     email: string;
     password: string;
+    role: string;
 }
 
 // Some attributes are optional in `User.build` and `User.create` calls
@@ -17,6 +18,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
     public username!: string;
     public email!: string;
     public password!: string;
+    public role!: string;
 }
 
 export const userInit = (sequelize: any) => {
@@ -37,6 +39,10 @@ export const userInit = (sequelize: any) => {
                 allowNull: false,
             },
             password: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            role: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
