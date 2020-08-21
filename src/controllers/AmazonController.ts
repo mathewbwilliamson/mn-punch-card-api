@@ -64,9 +64,13 @@ export class AmazonController {
     @Post('/api/amazon/refresh/:id')
     async refresh(
         @Param('id') id: number,
-        @Body() titleBody: { asin: string }
+        @Body() titleBody: { asin: string; title: string }
     ) {
-        return await getAmazonItemAndUpdate(id, titleBody.asin);
+        return await getAmazonItemAndUpdate(
+            id,
+            titleBody.asin,
+            titleBody.title
+        );
     }
 
     @Put('/api/amazon/:id')
