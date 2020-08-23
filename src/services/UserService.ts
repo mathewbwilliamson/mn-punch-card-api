@@ -1,6 +1,5 @@
 import { NewUser } from '../types/userTypes';
 import { findSingleUser, createNewUser } from '../repositories/UserRepo';
-import bcryptjs from 'bcryptjs';
 
 export const validateNewUser = async (newUser: NewUser) => {
     const { username, email, password, password2, role } = newUser;
