@@ -1,0 +1,18 @@
+GET http://localhost:3141/api/amazon HTTP/1.1
+content-type: application/json
+
+###
+
+POST http://localhost:3141/api/user/register HTTP/1.1
+content-type: application/json
+
+{
+  "username": "hello",
+  "email": "fakdjfkj@flklkfj.com",
+  "password": "secure1234",
+  "password2": "secure1234"
+}
+###
+
+GET http://localhost:3141/api/user/login HTTP/1.1
+content-type: application/json

@@ -1,12 +1,16 @@
 // src/models/User.ts
 import { Model, DataTypes } from 'sequelize';
+import { Role } from '../src/types/userTypes';
 
 export interface UserAttributes {
     id: number;
     username: string;
     email: string;
     password: string;
-    role: string;
+    role: Role;
+    authorizedDate?: string;
+    updatedAt?: string;
+    createdAt: string;
 }
 
 // Some attributes are optional in `User.build` and `User.create` calls
@@ -14,11 +18,14 @@ interface UserCreationAttributes extends UserAttributes {}
 
 export class User extends Model<UserAttributes, UserCreationAttributes>
     implements UserAttributes {
+    updatedAt: string;
     public id!: number;
     public username!: string;
     public email!: string;
     public password!: string;
-    public role!: string;
+    public role!: Role;
+    public authorizedDate!: string;
+    public createdAt!: string;
 }
 
 export const userInit = (sequelize: any) => {
@@ -45,6 +52,17 @@ export const userInit = (sequelize: any) => {
             role: {
                 type: DataTypes.STRING,
                 allowNull: false,
+            },
+            authorizedDate: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+            createdAt: {
+                type: DataTypes.DATE,
+                allowNull: false,
+            },
+            updatedAt: {
+                type: DataTypes.DATE,
             },
         },
         {

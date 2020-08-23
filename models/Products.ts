@@ -62,13 +62,13 @@ export const productInit = (sequelize: any) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            createdAt: {
-                type: DataTypes.DATE,
-                allowNull: false,
-            },
             updateSource: DataTypes.STRING,
             amazonTitle: {
                 type: DataTypes.STRING,
+                allowNull: false,
+            },
+            createdAt: {
+                type: DataTypes.DATE,
                 allowNull: false,
             },
             updatedAt: {
