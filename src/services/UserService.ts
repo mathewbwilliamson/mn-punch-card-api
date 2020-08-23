@@ -26,7 +26,9 @@ export const validateNewUser = async (newUser: NewUser) => {
                 username,
             },
         });
-        console.log('\x1b[41m%s \x1b[0m', '[matt] foundUser', foundUser);
+        if (!!foundUser) {
+            errors.push({ message: 'That username already exists.' });
+        }
     }
 
     return errors;
