@@ -1,12 +1,12 @@
 import { NewUser } from '../types/userTypes';
-import { User } from '../../models/User';
-import { findSingleUser } from '../repositories/UserRepo';
+import { findSingleUser, createNewUser } from '../repositories/UserRepo';
+import bcryptjs from 'bcryptjs';
 
 export const validateNewUser = async (newUser: NewUser) => {
     const { username, email, password, password2, role } = newUser;
     const errors = [];
 
-    if (!username || !email || !password || !password2) {
+    if (!username || !email || !password || !password2 || !role) {
         errors.push({ message: 'Please fill in every field.' });
     }
 
@@ -42,6 +42,8 @@ export const registerUser = async (newUser: NewUser) => {
         return errors;
     } else {
         // Validation passed
+        const newModelUser = await createNewUser(newUser);
+        console.log('\x1b[42m%s \x1b[0m', '[matt] newModelUser', newModelUser);
         return true;
     }
 };

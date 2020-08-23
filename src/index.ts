@@ -1,7 +1,6 @@
 import 'reflect-metadata'; // this shim is required
 import bodyParser from 'body-parser';
 import { createExpressServer } from 'routing-controllers';
-import bcrypt from 'bcryptjs';
 
 import dotenv from 'dotenv';
 dotenv.config();

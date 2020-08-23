@@ -1,5 +1,5 @@
 // src/models/User.ts
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes, Optional } from 'sequelize';
 import { Role } from '../src/types/userTypes';
 
 export interface UserAttributes {
@@ -14,7 +14,8 @@ export interface UserAttributes {
 }
 
 // Some attributes are optional in `User.build` and `User.create` calls
-interface UserCreationAttributes extends UserAttributes {}
+interface UserCreationAttributes
+    extends Optional<UserAttributes, 'id' | 'updatedAt' | 'createdAt'> {}
 
 export class User extends Model<UserAttributes, UserCreationAttributes>
     implements UserAttributes {

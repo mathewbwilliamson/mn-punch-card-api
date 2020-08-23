@@ -10,7 +10,8 @@ content-type: application/json
   "username": "hello",
   "email": "fakdjfkj@flklkfj.com",
   "password": "secure1234",
-  "password2": "secure1234"
+  "password2": "secure1234",
+  "role": "instructor"
 }
 ###
 
