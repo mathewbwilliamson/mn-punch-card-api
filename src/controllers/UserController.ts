@@ -24,6 +24,6 @@ export class UserController {
 
     @Put('/api/user/authorize/:userId')
     async authorizeUser(@Param('userId') userId: string) {
-        return authorizeUser(userId);
+        return await authorizeUser(userId);
     }
 }
