@@ -24,7 +24,7 @@ export interface ProductOrderAttributes {
 }
 
 // Some attributes are optional in `User.build` and `User.create` calls
-interface ProductOrderCreationAttributes
+export interface ProductOrderCreationAttributes
     extends Optional<
         ProductOrderAttributes,
         'id' | 'updatedAt' | 'createdAt'
