@@ -8,12 +8,13 @@ dotenv.config();
 // Controller imports
 import { AmazonController } from './controllers/AmazonController';
 import { EmailController } from './controllers/EmailController';
+import { OrderProductController } from './controllers/OrderProductController';
 import { NextFunction } from 'express';
 
 // creates express app, registers all controller routes and returns you express app instance
 const app = createExpressServer({
     cors: true,
-    controllers: [AmazonController, EmailController], // we specify controllers we want to use
+    controllers: [AmazonController, EmailController, OrderProductController], // we specify controllers we want to use
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));

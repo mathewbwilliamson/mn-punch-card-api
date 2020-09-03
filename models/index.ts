@@ -2,6 +2,7 @@
 
 import { Sequelize } from 'sequelize';
 import { productInit } from './Products';
+import { productOrderInit } from './ProductOrder';
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.js')[env];
@@ -14,6 +15,7 @@ const db = {
     sequelize,
     Sequelize,
     Products: productInit(sequelize),
+    ProductOrder: productOrderInit(sequelize),
 };
 
 Object.values(db).forEach((model: any) => {
