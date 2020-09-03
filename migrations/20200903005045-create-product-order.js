@@ -8,6 +8,9 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
+            isOrdered: {
+                type: Sequelize.STRING,
+            },
             firstNameOfChild: {
                 type: Sequelize.STRING,
             },

@@ -23,6 +23,7 @@ export function saveProductOrder(newProductOrder: NewOrder) {
         price: newProductOrder.product.price,
         rewardCardPrice: newProductOrder.product.rewardCardPrice,
         createdAt: new Date().toISOString(),
+        isOrdered: false,
     };
     return ProductOrder.create(newProduct).catch((err) => console.log(err));
 }

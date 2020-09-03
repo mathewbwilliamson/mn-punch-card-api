@@ -3,6 +3,7 @@ import { Sequelize, Optional, Model, DataTypes } from 'sequelize';
 
 export interface ProductOrderAttributes {
     id: number;
+    isOrdered: boolean;
     firstNameOfChild: string;
     lastNameOfChild: string;
     firstNameOfParent: string;
@@ -27,13 +28,14 @@ export interface ProductOrderAttributes {
 export interface ProductOrderCreationAttributes
     extends Optional<
         ProductOrderAttributes,
-        'id' | 'updatedAt' | 'createdAt'
+        'id' | 'updatedAt' | 'createdAt' | 'isOrdered'
     > {}
 
 export class ProductOrder
     extends Model<ProductOrderAttributes, ProductOrderCreationAttributes>
     implements ProductOrderAttributes {
     public id!: number; // Note that the `null assertion` `!` is required in strict mode.
+    public isOrdered!: boolean;
     public firstNameOfChild!: string;
     public lastNameOfChild!: string;
     public firstNameOfParent!: string;
@@ -62,6 +64,9 @@ export const productOrderInit = (sequelize: any) => {
                 autoIncrement: true,
                 primaryKey: true,
                 type: DataTypes.INTEGER,
+            },
+            isOrdered: {
+                type: DataTypes.STRING,
             },
             firstNameOfChild: {
                 type: DataTypes.STRING,
