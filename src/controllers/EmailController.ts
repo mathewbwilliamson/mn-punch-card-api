@@ -1,4 +1,4 @@
-import { Post, JsonController, Body } from 'routing-controllers';
+import { Post, JsonController, Body, Get } from 'routing-controllers';
 import { sendEmailForBuyingProduct } from '../services/EmailService';
 import { NewOrder } from '../types/productTypes';
 import { saveProductOrder } from '../repositories/OrderProductRepo';
@@ -9,6 +9,11 @@ export class EmailController {
     async buyProduct(@Body() orderMessage: { newOrder: NewOrder }) {
         await sendEmailForBuyingProduct(orderMessage.newOrder);
         await saveProductOrder(orderMessage.newOrder);
+        return 'success';
+    }
+
+    @Get('/api/email')
+    async getAllOrders() {
         return 'success';
     }
 }

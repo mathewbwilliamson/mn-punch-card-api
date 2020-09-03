@@ -27,3 +27,9 @@ export function saveProductOrder(newProductOrder: NewOrder) {
     };
     return ProductOrder.create(newProduct).catch((err) => console.log(err));
 }
+
+export async function getAllOrders() {
+    return await ProductOrder.findAll({
+        raw: true,
+    });
+}
