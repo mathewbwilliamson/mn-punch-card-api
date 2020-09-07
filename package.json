@@ -4,7 +4,7 @@
     "description": "",
     "main": "dist/src/index.js",
     "scripts": {
-        "dev": "npx tsc & nodemon .",
+        "dev": "node --inspect=3142 -r ts-node/register ./src/index.ts",
         "build": "npx tsc",
         "start": "node .",
         "migration": "npx sequelize-cli db:migrate"
