@@ -18,3 +18,9 @@ export function saveItemInRefreshHistory(
         console.log(err)
     );
 }
+
+export async function getAllRefreshHistory() {
+    return await RefreshHistory.findAll({
+        raw: true,
+    });
+}
