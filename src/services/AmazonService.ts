@@ -81,16 +81,6 @@ export const getAmazonItemAndUpdate = async (
         // let amazonItem = (await getSeedAmazonItem(
         //     asin
         // )) as RawAmazonRequestBody; // [matt] REMOVE
-        console.log('\x1b[43m%s \x1b[0m', '[matt] amazonItem', amazonItem);
-
-        /**
-         * [matt] TODO Tracking all refreshed products.
-         * 0. MOCK the api calls so I don't spend all the data
-         * 1. Get an item.
-         * 2. If errored out, put into a new Table with a column that says so. Stringify reason.
-         * 3. If not errored out, put into the same Table with null column.
-         * 4. Show the user the table of values with the issues, if error, error is red?
-         */
 
         // The API kinda sucks so try the server multiple times on an item if it fails
         let n = 0;
@@ -102,14 +92,7 @@ export const getAmazonItemAndUpdate = async (
         }
 
         const transformedItem = transformItem(amazonItem, title);
-        console.log(
-            '\x1b[41m%s \x1b[0m',
-            '[matt] transformedItem',
-            transformedItem
-        );
 
-        // [matt] await the logged item along with the status message
-        // On the table, have a refresh button next to errored ones
         await saveItemInRefreshHistory(
             transformedItem,
             amazonItem.request_info
@@ -119,7 +102,6 @@ export const getAmazonItemAndUpdate = async (
             throw new Error('Error from the server');
         }
 
-        // [matt] Add this back in when ready!
         return await updateItem(id, transformedItem);
     } catch (err) {
         throw err;
