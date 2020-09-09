@@ -1,8 +1,9 @@
 // src/db/models/index.ts
 
 import { Sequelize } from 'sequelize';
-import { productInit } from './Products';
+import { productInit, Products } from './Products';
 import { productOrderInit } from './ProductOrder';
+import { refreshHistoryInit } from './RefreshHistory';
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.js')[env];
@@ -17,6 +18,7 @@ const db = {
     Sequelize,
     Products: productInit(sequelize),
     ProductOrder: productOrderInit(sequelize),
+    RefreshHistory: refreshHistoryInit(sequelize),
 };
 
 Object.values(db).forEach((model: any) => {
