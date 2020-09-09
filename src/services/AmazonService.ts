@@ -12,6 +12,7 @@ import {
     RainforestAccountData,
 } from '../types/generalTypes';
 import { getSeedAmazonItem, getAllSeedAsins } from '../seed/seedDataForTesting';
+import { saveItemInRefreshHistory } from '../repositories/RefreshHistoryRepo';
 
 export const getAmazonItem = async (asin: string) => {
     if (!asin) {
@@ -76,8 +77,10 @@ export const getAmazonItemAndUpdate = async (
         return;
     }
     try {
-        // let amazonItem = await getAmazonItem(asin);
-        let amazonItem = await getSeedAmazonItem(asin); // [matt] REMOVE
+        let amazonItem = (await getAmazonItem(asin)) as RawAmazonRequestBody;
+        // let amazonItem = (await getSeedAmazonItem(
+        //     asin
+        // )) as RawAmazonRequestBody; // [matt] REMOVE
         console.log('\x1b[43m%s \x1b[0m', '[matt] amazonItem', amazonItem);
 
         /**
@@ -93,21 +96,30 @@ export const getAmazonItemAndUpdate = async (
         let n = 0;
         while (!amazonItem.request_info.success && n < 4) {
             await sleep(3000);
-            // amazonItem = await getAmazonItem(asin);
-            amazonItem = await getSeedAmazonItem(asin); // [matt] REMOVE
+            amazonItem = await getAmazonItem(asin);
+            // amazonItem = await getSeedAmazonItem(asin); // [matt] REMOVE
             n += 1;
         }
 
         const transformedItem = transformItem(amazonItem, title);
+        console.log(
+            '\x1b[41m%s \x1b[0m',
+            '[matt] transformedItem',
+            transformedItem
+        );
 
         // [matt] await the logged item along with the status message
         // On the table, have a refresh button next to errored ones
-        // await saveItemInRefreshLog(transformedItem, amazonItem.request_info.success)
+        await saveItemInRefreshHistory(
+            transformedItem,
+            amazonItem.request_info
+        );
 
         if (!amazonItem.request_info.success) {
             throw new Error('Error from the server');
         }
 
+        // [matt] Add this back in when ready!
         return await updateItem(id, transformedItem);
     } catch (err) {
         throw err;
@@ -119,18 +131,17 @@ const sleep = (milliseconds: number) => {
 };
 
 export const refreshAllItems = async () => {
-    // const allProducts = (await getAllAsins()) as [
-    //     { asin: string; id: number; title: string }[],
-    //     string
-    // ];
-    const allSeedProducts = getAllSeedAsins; // [matt] REMOVE
+    const allProducts = (await getAllAsins()) as [
+        { asin: string; id: number; title: string }[],
+        string
+    ];
+    // const allSeedProducts = getAllSeedAsins; // [matt] REMOVE
 
     /**
      * Get every item in turn.
      */
-
     return await Promise.all(
-        allSeedProducts[0].map(async (item) => {
+        allProducts[0].map(async (item) => {
             await sleep(300);
             if (!!item) {
                 const newItem = item as {

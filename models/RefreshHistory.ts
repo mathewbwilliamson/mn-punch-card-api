@@ -5,14 +5,14 @@ import { Products } from './Products';
 export interface RefreshHistoryAttributes {
     id: number;
     errorMessage: string;
+    success: string;
     asin: string;
-    productId: number;
     updatedAt: string;
     createdAt: string;
 }
 
 // Some attributes are optional in `User.build` and `User.create` calls
-interface RefreshHistoryCreationAttributes
+export interface RefreshHistoryCreationAttributes
     extends Optional<
         RefreshHistoryAttributes,
         'id' | 'updatedAt' | 'createdAt'
@@ -22,15 +22,15 @@ export class RefreshHistory
     extends Model<RefreshHistoryAttributes, RefreshHistoryCreationAttributes>
     implements RefreshHistoryAttributes {
     public errorMessage!: string;
-    public productId!: number;
     public id!: number; // Note that the `null assertion` `!` is required in strict mode.
     public asin!: string;
+    public success!: string;
     public updatedAt!: string;
     public createdAt!: string;
 }
 
 export const refreshHistoryInit = (sequelize: any) => {
-    RefreshHistory.init(
+    return RefreshHistory.init(
         {
             id: {
                 allowNull: false,
@@ -41,11 +41,11 @@ export const refreshHistoryInit = (sequelize: any) => {
             errorMessage: {
                 type: DataTypes.STRING,
             },
-            asin: {
+            success: {
                 type: DataTypes.STRING,
             },
-            productId: {
-                type: DataTypes.INTEGER,
+            asin: {
+                type: DataTypes.STRING,
             },
             createdAt: {
                 allowNull: false,
@@ -61,6 +61,4 @@ export const refreshHistoryInit = (sequelize: any) => {
             sequelize, // passing the `sequelize` instance is required
         }
     );
-
-    return RefreshHistory.belongsTo(Products, { foreignKey: 'productId' });
 };

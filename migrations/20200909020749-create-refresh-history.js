@@ -11,12 +11,11 @@ module.exports = {
             errorMessage: {
                 type: Sequelize.STRING,
             },
-            asin: {
+            success: {
                 type: Sequelize.STRING,
             },
-            productId: {
-                type: Sequelize.INTEGER,
-                references: { model: 'products', key: 'id' },
+            asin: {
+                type: Sequelize.STRING,
             },
             createdAt: {
                 allowNull: false,

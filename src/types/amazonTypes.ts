@@ -23,12 +23,14 @@ export interface PriceInfo {
     raw: string;
 }
 
+export interface AmazonRequestInfo {
+    success: boolean;
+    credits_used: number;
+    credits_remaining: number;
+    message: string;
+}
 export interface RawAmazonRequestBody {
-    request_info: {
-        success: boolean;
-        credits_used: number;
-        credits_remaining: number;
-    };
+    request_info: AmazonRequestInfo;
     product: {
         asin: string;
         title: string;
