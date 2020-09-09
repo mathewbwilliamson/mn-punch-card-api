@@ -7,6 +7,7 @@ import { productOrderInit } from './ProductOrder';
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.js')[env];
 
+// [matt] WHY IS THIS HARDCODEDDDDDD?
 const url = `mssql://reward-cabinet-new-tampa.database.windows.net`;
 
 const sequelize = new Sequelize(url, config);
