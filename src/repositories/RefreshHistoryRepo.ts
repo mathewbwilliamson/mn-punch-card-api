@@ -20,7 +20,11 @@ export function saveItemInRefreshHistory(
 }
 
 export async function getAllRefreshHistory() {
-    return await RefreshHistory.findAll({
-        raw: true,
+    return (
+        await RefreshHistory.findAll({
+            raw: true,
+        })
+    ).map((item) => {
+        return { ...item, success: Boolean(item.success) };
     });
 }
