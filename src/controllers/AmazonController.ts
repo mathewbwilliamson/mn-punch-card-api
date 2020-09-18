@@ -50,6 +50,11 @@ export class AmazonController {
     async get(@Param('asin') asin: string) {
         const asinQuery = asin;
         const rawAmazonItem = await getAmazonItem(asinQuery);
+        console.log(
+            '\x1b[41m%s \x1b[0m',
+            '[matt] rawAmazonItem',
+            rawAmazonItem
+        );
         return transformItem(rawAmazonItem);
     }
 

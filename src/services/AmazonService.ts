@@ -5,7 +5,7 @@ import {
     getAllProducts,
     getAllAsins,
 } from '../repositories/AmazonRepo';
-import { RawAmazonRequestBody } from '../types/amazonTypes';
+import { RawAmazonRequestBody, ItemError } from '../types/amazonTypes';
 import axios from 'axios';
 import {
     RainforestAccountRequest,
@@ -13,6 +13,7 @@ import {
 } from '../types/generalTypes';
 import { getSeedAmazonItem, getAllSeedAsins } from '../seed/seedDataForTesting';
 import { saveItemInRefreshHistory } from '../repositories/RefreshHistoryRepo';
+import { NewProduct } from '../types/productTypes';
 
 export const getAmazonItem = async (asin: string) => {
     if (!asin) {
@@ -62,6 +63,18 @@ export const getAndSaveAmazonItem = async (asin: string, title?: string) => {
     return amazonItem;
 };
 
+export const getItemError = (
+    item: NewProduct,
+    amazonItem: RawAmazonRequestBody
+) => {
+    if (isNaN(item.price)) {
+        return 'The price does not exist.';
+    }
+    if (amazonItem.request_info.message) {
+        return amazonItem.request_info.message;
+    }
+};
+
 /**
  * Used for RefreshAll
  * @param id
@@ -93,16 +106,21 @@ export const getAmazonItemAndUpdate = async (
 
         const transformedItem = transformItem(amazonItem, title);
 
-        await saveItemInRefreshHistory(
-            transformedItem,
-            amazonItem.request_info
-        );
+        const errorMessage = getItemError(transformedItem, amazonItem);
+        const error: ItemError = {
+            errorMessage,
+            success: !errorMessage,
+        };
 
-        if (!amazonItem.request_info.success) {
-            throw new Error('Error from the server');
+        await saveItemInRefreshHistory(transformedItem, error);
+
+        if (!error.success) {
+            return error;
         }
 
-        return await updateItem(id, transformedItem);
+        if (!error?.errorMessage) {
+            return await updateItem(id, transformedItem);
+        }
     } catch (err) {
         throw err;
     }

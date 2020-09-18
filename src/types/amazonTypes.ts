@@ -39,16 +39,21 @@ export interface RawAmazonRequestBody {
         description: string;
         link: string;
         feature_bullets_flat: string;
-        buybox_winner: {
+        buybox_winner?: {
             is_prime: boolean;
             condition: any;
             availability: any;
             fulfillment: any;
-            price: PriceInfo;
+            price?: PriceInfo;
             rrp: any;
             save: any;
             shipping: any;
         };
         prices: PriceInformation;
     };
+}
+
+export interface ItemError {
+    errorMessage: string;
+    success: boolean;
 }

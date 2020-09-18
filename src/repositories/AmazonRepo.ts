@@ -8,14 +8,20 @@ export const transformItem = (
     amazonItem: RawAmazonRequestBody,
     title?: string
 ) => {
+    const possiblePrice = amazonItem.product?.buybox_winner?.price?.value;
+    const price = Math.ceil(possiblePrice);
+    console.log(
+        '\x1b[41m%s \x1b[0m',
+        '[matt] possiblePrice, price',
+        possiblePrice,
+        price
+    );
     const transformedItem: NewProduct = {
         asin: amazonItem.product.asin,
         amazonTitle: amazonItem.product.title,
         imageUrl: amazonItem.product.main_image.link,
-        price: Math.ceil(amazonItem.product.buybox_winner.price.value),
-        rewardCardPrice: calculateRewardCardPrice(
-            amazonItem.product.buybox_winner.price.value
-        ),
+        price,
+        rewardCardPrice: calculateRewardCardPrice(possiblePrice),
         title: title || amazonItem.product.title,
         link: `${amazonItem.product.link}/ref=as_li_tl?ie=UTF8&tag=newtamparewar-20`,
         createdAt: new Date().toString(),
