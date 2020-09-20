@@ -4,6 +4,8 @@ import { Sequelize, Optional, Model, DataTypes } from 'sequelize';
 export interface ProductOrderAttributes {
     id: number;
     isOrdered: boolean;
+    isHidden: boolean;
+    isDeleted: boolean;
     firstNameOfChild: string;
     lastNameOfChild: string;
     firstNameOfParent: string;
@@ -28,7 +30,12 @@ export interface ProductOrderAttributes {
 export interface ProductOrderCreationAttributes
     extends Optional<
         ProductOrderAttributes,
-        'id' | 'updatedAt' | 'createdAt' | 'isOrdered'
+        | 'id'
+        | 'updatedAt'
+        | 'createdAt'
+        | 'isOrdered'
+        | 'isHidden'
+        | 'isDeleted'
     > {}
 
 export class ProductOrder
@@ -54,6 +61,8 @@ export class ProductOrder
     public price!: number;
     public rewardCardPrice!: number;
     public link!: string;
+    public isHidden!: boolean;
+    public isDeleted!: boolean;
 }
 
 export const productOrderInit = (sequelize: any) => {
@@ -123,6 +132,12 @@ export const productOrderInit = (sequelize: any) => {
             updatedAt: {
                 allowNull: false,
                 type: DataTypes.DATE,
+            },
+            isHidden: {
+                type: DataTypes.BOOLEAN,
+            },
+            isDeleted: {
+                type: DataTypes.BOOLEAN,
             },
         },
         {
