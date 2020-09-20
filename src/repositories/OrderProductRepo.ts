@@ -1,6 +1,7 @@
 import { NewOrder } from '../types/productTypes';
 import {
     ProductOrder,
+    ProductOrderAttributes,
     ProductOrderCreationAttributes,
 } from '../../models/ProductOrder';
 
@@ -32,4 +33,11 @@ export async function getAllOrders() {
     return await ProductOrder.findAll({
         raw: true,
     });
+}
+
+export async function patchOrder(
+    id: number,
+    body: Partial<ProductOrderAttributes>
+) {
+    return await ProductOrder.update({ ...body }, { where: { id } });
 }
