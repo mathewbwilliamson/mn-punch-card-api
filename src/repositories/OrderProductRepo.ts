@@ -32,6 +32,7 @@ export function saveProductOrder(newProductOrder: NewOrder) {
 export async function getAllOrders() {
     return await ProductOrder.findAll({
         raw: true,
+        where: { isDeleted: false || null },
     });
 }
 
