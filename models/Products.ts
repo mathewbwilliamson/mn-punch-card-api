@@ -15,11 +15,15 @@ export interface ProductsAttributes {
     imageUrl?: string;
     isDeleted?: boolean;
     updateSource?: string;
+    isHidden?: boolean;
 }
 
 // Some attributes are optional in `User.build` and `User.create` calls
 interface ProductsCreationAttributes
-    extends Optional<ProductsAttributes, 'id' | 'updatedAt' | 'createdAt'> {}
+    extends Optional<
+        ProductsAttributes,
+        'id' | 'updatedAt' | 'createdAt' | 'isHidden'
+    > {}
 
 export class Products
     extends Model<ProductsAttributes, ProductsCreationAttributes>
@@ -36,6 +40,7 @@ export class Products
     public link!: string;
     public imageUrl!: string;
     public isDeleted!: boolean;
+    public isHidden!: boolean;
     public updateSource!: string;
 }
 
@@ -58,6 +63,7 @@ export const productInit = (sequelize: any) => {
             link: DataTypes.STRING,
             imageUrl: DataTypes.STRING,
             isDeleted: DataTypes.BOOLEAN,
+            isHidden: DataTypes.BOOLEAN,
             createdBy: {
                 type: DataTypes.STRING,
                 allowNull: false,
