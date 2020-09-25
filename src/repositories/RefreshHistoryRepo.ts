@@ -14,11 +14,7 @@ export function saveItemInRefreshHistory(
         asin: productToSave.asin,
         success: `${requestInfo.success}`,
     };
-    console.log(
-        '\x1b[44m%s \x1b[0m',
-        '[matt] newRefreshHistoryProduct',
-        newRefreshHistoryProduct
-    );
+
     return RefreshHistory.create(newRefreshHistoryProduct).catch((err) =>
         console.log(err)
     );

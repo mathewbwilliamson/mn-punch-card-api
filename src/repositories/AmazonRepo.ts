@@ -1,7 +1,7 @@
 import { RawAmazonRequestBody } from '../types/amazonTypes';
-import { NewProduct } from '../types/productTypes';
+import { NewProduct, Product } from '../types/productTypes';
 import { calculateRewardCardPrice } from '../utils/calculateRewardCardPrice';
-import { Products } from '../../models/Products';
+import { Products, ProductsAttributes } from '../../models/Products';
 import db from '../../models';
 
 export const transformItem = (
@@ -64,6 +64,13 @@ export async function deleteItem(id: number) {
 
 export const updateItemTitle = async (id: number, newTitle: string) => {
     return await Products.update({ title: newTitle }, { where: { id } });
+};
+
+export const updateProduct = async (
+    id: number,
+    attributes: Partial<ProductsAttributes>
+) => {
+    return await Products.update(attributes, { where: { id } });
 };
 
 export const updateItem = async (id: number, amazonItem: NewProduct) => {

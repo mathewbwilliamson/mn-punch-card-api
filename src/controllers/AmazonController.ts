@@ -20,9 +20,10 @@ import {
     transformItem,
     saveItem,
     deleteItem,
-    updateItemTitle,
+    updateProduct,
 } from '../repositories/AmazonRepo';
 import { NewProduct } from '../types/productTypes';
+import { ProductsAttributes } from '../../models/Products';
 
 @JsonController()
 export class AmazonController {
@@ -79,8 +80,11 @@ export class AmazonController {
     }
 
     @Put('/api/amazon/:id')
-    async put(@Param('id') id: number, @Body() titleBody: { title: string }) {
-        return await updateItemTitle(id, titleBody.title);
+    async put(
+        @Param('id') id: number,
+        @Body() body: { productAttributes: ProductsAttributes }
+    ) {
+        return await updateProduct(id, body.productAttributes);
     }
 
     @Delete('/api/amazon/:id')
