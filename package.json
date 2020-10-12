@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "node --inspect=3142 -r ts-node/register ./src/index.ts",
         "build": "npx tsc",
-        "start": "node .",
+        "start": "npx tsc && (node . | pino-pretty)",
         "migration": "npx sequelize-cli db:migrate"
     },
     "keywords": [],
@@ -14,6 +14,7 @@
     "license": "ISC",
     "devDependencies": {
         "nodemon": "^2.0.4",
+        "pino-pretty": "^4.3.0",
         "sequelize-cli": "^6.2.0",
         "tslint": "^6.1.2",
         "typescript": "^3.9.6"
@@ -28,6 +29,7 @@
         "@types/he": "^1.1.1",
         "@types/multer": "^1.4.3",
         "@types/node": "^14.0.23",
+        "@types/pino": "^6.3.2",
         "@types/validator": "^13.1.0",
         "axios": "^0.19.2",
         "bluebird": "^3.7.2",
@@ -37,11 +39,13 @@
         "cors": "^2.8.5",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
+        "express-pino-logger": "^5.0.0",
         "fs": "0.0.1-security",
         "https": "^1.0.0",
         "multer": "^1.4.2",
         "mysql2": "^2.1.0",
         "npx": "^10.2.2",
+        "pino": "^6.7.0",
         "reflect-metadata": "^0.1.13",
         "routing-controllers": "^0.9.0-alpha.4",
         "sequelize": "^6.3.4",

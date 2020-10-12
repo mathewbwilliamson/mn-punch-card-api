@@ -24,6 +24,7 @@ import {
 } from '../repositories/AmazonRepo';
 import { NewProduct } from '../types/productTypes';
 import { ProductsAttributes } from '../../models/Products';
+import { logger } from '..';
 
 @JsonController()
 export class AmazonController {
@@ -39,6 +40,7 @@ export class AmazonController {
 
     @Get('/api/amazon')
     async getAll() {
+        logger.debug('Calling GET api/amazon');
         return await getAllProducts();
     }
 

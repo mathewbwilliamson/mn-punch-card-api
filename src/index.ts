@@ -1,6 +1,9 @@
 import 'reflect-metadata'; // this shim is required
 import bodyParser from 'body-parser';
 import { createExpressServer } from 'routing-controllers';
+import { NextFunction } from 'express';
+import pino from 'pino';
+import expressPino from 'express-pino-logger';
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -10,7 +13,16 @@ import { AmazonController } from './controllers/AmazonController';
 import { EmailController } from './controllers/EmailController';
 import { OrderProductController } from './controllers/OrderProductController';
 import { RefreshHistoryController } from './controllers/RefreshHistoryController';
-import { NextFunction } from 'express';
+
+export const logger = pino(
+    {
+        level: process.env.LOG_LEVEL || 'info',
+        prettyPrint: { levelFirst: true },
+    },
+    process.env.LOG_DESTINATION !== 'console' &&
+        pino.destination('./logs/pino.log')
+);
+const expressLogger = expressPino({ logger });
 
 // creates express app, registers all controller routes and returns you express app instance
 const app = createExpressServer({
@@ -23,6 +35,8 @@ const app = createExpressServer({
     ], // we specify controllers we want to use
 });
 
+app.use(expressLogger);
+
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use((err: Error, req: Express.Request, res: any, next: NextFunction) => {
@@ -33,20 +47,6 @@ app.use((err: Error, req: Express.Request, res: any, next: NextFunction) => {
     console.log('\x1b[43m%s \x1b[0m', 'ERROR', err);
 });
 
-// const httpsConfig = {
-//     key: fs
-//         .readFileSync(path.resolve(process.env.SSL_KEY_PATH), 'utf8')
-//         .toString(),
-//     cert: fs
-//         .readFileSync(
-//             path.resolve(process.cwd(), process.env.SSL_CERT_PATH),
-//             'utf8'
-//         )
-//         .toString(),
-// };
-
-// https.createServer(httpsConfig, app.callback()).listen('443');
-
 app.listen(process.env.API_PORT, () => {
-    console.log(`Example app listening on port ${process.env.API_PORT}!`);
+    logger.info(`Server listening on port ${process.env.API_PORT}!`);
 });
