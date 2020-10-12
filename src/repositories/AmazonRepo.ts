@@ -3,6 +3,7 @@ import { NewProduct, Product } from '../types/productTypes';
 import { calculateRewardCardPrice } from '../utils/calculateRewardCardPrice';
 import { Products, ProductsAttributes } from '../../models/Products';
 import db from '../../models';
+import { logger } from '../index';
 
 export const transformItem = (
     amazonItem: RawAmazonRequestBody,
@@ -10,12 +11,6 @@ export const transformItem = (
 ) => {
     const possiblePrice = amazonItem.product?.buybox_winner?.price?.value;
     const price = Math.ceil(possiblePrice);
-    console.log(
-        '\x1b[41m%s \x1b[0m',
-        '[matt] possiblePrice, price',
-        possiblePrice,
-        price
-    );
     const transformedItem: NewProduct = {
         asin: amazonItem.product.asin,
         amazonTitle: amazonItem.product.title,
@@ -40,7 +35,7 @@ export const saveAmazonItem = (
 };
 
 export function saveItem(amazonItem: NewProduct) {
-    return Products.create(amazonItem).catch((err) => console.log(err));
+    return Products.create(amazonItem).catch((err) => logger.error(err));
 }
 
 export const getAllProducts = () => {

@@ -12,8 +12,12 @@ import {
     RainforestAccountData,
 } from '../types/generalTypes';
 import { getSeedAmazonItem, getAllSeedAsins } from '../seed/seedDataForTesting';
-import { saveItemInRefreshHistory } from '../repositories/RefreshHistoryRepo';
+import {
+    isRefreshHistoryReadyToRun,
+    saveItemInRefreshHistory,
+} from '../repositories/RefreshHistoryRepo';
 import { NewProduct } from '../types/productTypes';
+import { logger } from '../index';
 
 export const getAmazonItem = async (asin: string) => {
     if (!asin) {
@@ -91,34 +95,30 @@ export const getAmazonItemAndUpdate = async (
     }
     try {
         let amazonItem = (await getAmazonItem(asin)) as RawAmazonRequestBody;
-        // let amazonItem = (await getSeedAmazonItem(
-        //     asin
-        // )) as RawAmazonRequestBody; // [matt] REMOVE
-
         // The API kinda sucks so try the server multiple times on an item if it fails
+        // Note, one time there was so many failures that half of the things were gone!
         let n = 0;
-        while (!amazonItem.request_info.success && n < 4) {
+        while (!amazonItem.request_info.success && n < 1) {
             await sleep(3000);
             amazonItem = await getAmazonItem(asin);
-            // amazonItem = await getSeedAmazonItem(asin); // [matt] REMOVE
             n += 1;
         }
 
         const transformedItem = transformItem(amazonItem, title);
 
         const errorMessage = getItemError(transformedItem, amazonItem);
-        const error: ItemError = {
+        const errorObject: ItemError = {
             errorMessage,
             success: !errorMessage,
         };
 
-        await saveItemInRefreshHistory(transformedItem, error);
+        await saveItemInRefreshHistory(transformedItem, errorObject);
 
-        if (!error.success) {
-            return error;
+        if (!errorObject.success) {
+            return errorObject;
         }
 
-        if (!error?.errorMessage) {
+        if (!errorObject?.errorMessage) {
             return await updateItem(id, transformedItem);
         }
     } catch (err) {
@@ -131,16 +131,24 @@ const sleep = (milliseconds: number) => {
 };
 
 export const refreshAllItems = async () => {
+    const usage = await getUsage();
+    logger.info(
+        `The refresh is going to happen with the following starting points: Credits Remaining = ${usage.creditsRemaining} and Credits Used = ${usage.creditsUsed}.`
+    );
+    const isRefreshReady = await isRefreshHistoryReadyToRun();
+
+    if (!isRefreshReady) {
+        return Promise.resolve([]);
+    }
+
     const allProducts = (await getAllAsins()) as [
         { asin: string; id: number; title: string }[],
         string
     ];
-    // const allSeedProducts = getAllSeedAsins; // [matt] REMOVE
-
     /**
      * Get every item in turn.
      */
-    return await Promise.all(
+    const awaitedProductsData = await Promise.all(
         allProducts[0].map(async (item) => {
             await sleep(300);
             if (!!item) {
@@ -157,4 +165,10 @@ export const refreshAllItems = async () => {
             }
         })
     );
+
+    const postUsage = await getUsage();
+    logger.info(
+        `The refresh has happened with the following end points: Credits Remaining = ${postUsage.creditsRemaining} and Credits Used = ${postUsage.creditsUsed}.`
+    );
+    return awaitedProductsData;
 };

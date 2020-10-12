@@ -17,7 +17,6 @@ import { RefreshHistoryController } from './controllers/RefreshHistoryController
 export const logger = pino(
     {
         level: process.env.LOG_LEVEL || 'info',
-        prettyPrint: { levelFirst: true },
     },
     process.env.LOG_DESTINATION !== 'console' &&
         pino.destination('./logs/pino.log')

@@ -2,8 +2,12 @@ import { NewProduct } from '../types/productTypes';
 import {
     RefreshHistoryCreationAttributes,
     RefreshHistory,
+    RefreshHistoryAttributes,
 } from '../../models/RefreshHistory';
-import { AmazonRequestInfo, ItemError } from '../types/amazonTypes';
+import { ItemError } from '../types/amazonTypes';
+import { logger } from '../index';
+import db from '../../models';
+import dayjs from 'dayjs';
 
 export function saveItemInRefreshHistory(
     productToSave: NewProduct,
@@ -16,7 +20,7 @@ export function saveItemInRefreshHistory(
     };
 
     return RefreshHistory.create(newRefreshHistoryProduct).catch((err) =>
-        console.log(err)
+        logger.error(err)
     );
 }
 
@@ -29,3 +33,25 @@ export async function getAllRefreshHistory() {
         return { ...item, success: Boolean(item.success) };
     });
 }
+
+/**
+ * Gets the last time that Refresh All has run
+ */
+const refreshHistoryLastUpdated = async () => {
+    return (
+        await db.sequelize.query(
+            'SELECT id, createdAt FROM RefreshHistories ORDER BY createdAt DESC'
+        )
+    )[0] as Pick<RefreshHistoryAttributes, 'id' | 'createdAt'>[];
+};
+
+/**
+ * If refreshHistory was run too soon, don't run again.
+ */
+export const isRefreshHistoryReadyToRun = async () => {
+    const lastUpdated = (await refreshHistoryLastUpdated())[0].createdAt;
+    const isInLastFiveMinutes = dayjs()
+        .subtract(5, 'minute')
+        .isBefore(dayjs(lastUpdated));
+    return !isInLastFiveMinutes;
+};
