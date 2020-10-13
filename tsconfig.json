@@ -12,7 +12,9 @@
         "experimentalDecorators": true,
         "paths": {
             "*": ["node_modules/*"]
-        }
+        },
+        "typeRoots": ["./src/types","./types",
+            "./node_modules/@types/"]
     },
     "include": ["src/**/*", "config/*"]
 }
