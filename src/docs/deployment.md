@@ -4,7 +4,7 @@
 -   Don't forget that Dev DB should be pointed at here. Env here should connect to Dev.
 
 -   Go to their terminal and git pull.
--   npm i if needed
+-   npm i if needed => npm run build if needed
 -   PM2: /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2
 
 *   Create an Instance
@@ -19,3 +19,7 @@
 *   Restart app
 
 -   /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2 restart 0
+
+*   List all the logs
+
+-   /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2 logs
