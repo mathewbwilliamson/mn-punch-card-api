@@ -13,6 +13,7 @@ import { AmazonController } from './controllers/AmazonController';
 import { EmailController } from './controllers/EmailController';
 import { OrderProductController } from './controllers/OrderProductController';
 import { RefreshHistoryController } from './controllers/RefreshHistoryController';
+import { HealthCheckController } from './controllers/HealthCheckController';
 
 export const logger = pino(
     {
@@ -31,6 +32,7 @@ const app = createExpressServer({
         EmailController,
         OrderProductController,
         RefreshHistoryController,
+        HealthCheckController
     ], // we specify controllers we want to use
 });
 
