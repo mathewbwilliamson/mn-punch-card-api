@@ -47,7 +47,7 @@ export const getAllProducts = () => {
   });
 };
 
-export const getAllAsins = () => {
+export const getProductMetadata = () => {
   return db.sequelize.query(
     'SELECT asin, id, title, rewardCardPrice FROM Products WHERE isDeleted IS NULL'
   );
