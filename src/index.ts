@@ -32,7 +32,7 @@ const app = createExpressServer({
         EmailController,
         OrderProductController,
         RefreshHistoryController,
-        HealthCheckController
+        HealthCheckController,
     ], // we specify controllers we want to use
 });
 

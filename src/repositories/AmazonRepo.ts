@@ -6,71 +6,71 @@ import db from '../../models';
 import { logger } from '../index';
 
 export const transformItem = (
-    amazonItem: RawAmazonRequestBody,
-    title?: string
+  amazonItem: RawAmazonRequestBody,
+  title?: string
 ) => {
-    const possiblePrice = amazonItem.product?.buybox_winner?.price?.value;
-    const price = Math.ceil(possiblePrice);
-    const transformedItem: NewProduct = {
-        asin: amazonItem.product.asin,
-        amazonTitle: amazonItem.product.title,
-        imageUrl: amazonItem.product.main_image.link,
-        price,
-        rewardCardPrice: calculateRewardCardPrice(possiblePrice),
-        title: title || amazonItem.product.title,
-        link: `${amazonItem.product.link}/ref=as_li_tl?ie=UTF8&tag=newtamparewar-20`,
-        createdAt: new Date().toString(),
-        createdBy: 'ME', // [matt] THIS NEEDS TO CHANGE
-        updateSource: 'manual',
-    };
-    return transformedItem;
+  const possiblePrice = amazonItem.product?.buybox_winner?.price?.value;
+  const price = Math.ceil(possiblePrice);
+  const transformedItem: NewProduct = {
+    asin: amazonItem.product.asin,
+    amazonTitle: amazonItem.product.title,
+    imageUrl: amazonItem.product.main_image.link,
+    price,
+    rewardCardPrice: calculateRewardCardPrice(possiblePrice),
+    title: title || amazonItem.product.title,
+    link: `${amazonItem.product.link}/ref=as_li_tl?ie=UTF8&tag=newtamparewar-20`,
+    createdAt: new Date().toString(),
+    createdBy: 'ME', // [matt] THIS NEEDS TO CHANGE
+    updateSource: 'manual',
+  };
+  return transformedItem;
 };
 
 export const saveAmazonItem = (
-    amazonItem: RawAmazonRequestBody,
-    title?: string
+  amazonItem: RawAmazonRequestBody,
+  title?: string
 ) => {
-    const transformedItem = transformItem(amazonItem, title);
-    saveItem(transformedItem);
+  const transformedItem = transformItem(amazonItem, title);
+  saveItem(transformedItem);
 };
 
 export function saveItem(amazonItem: NewProduct) {
-    return Products.create(amazonItem).catch((err) => logger.error(err));
+  return Products.create(amazonItem).catch((err) => logger.error(err));
 }
 
 export const getAllProducts = () => {
-    return Products.findAll({
-        where: {
-            isDeleted: null,
-        },
-        raw: true,
-    });
+  return Products.findAll({
+    where: {
+      isDeleted: null,
+    },
+    raw: true,
+  });
 };
 
 export const getAllAsins = () => {
-    return db.sequelize.query(
-        'SELECT asin, id, title FROM Products WHERE isDeleted IS NULL'
-    );
+  return db.sequelize.query(
+    'SELECT asin, id, title, rewardCardPrice FROM Products WHERE isDeleted IS NULL'
+  );
 };
 
 export async function deleteItem(id: number) {
-    return await Products.destroy({ where: { id } });
+  return await Products.destroy({ where: { id } });
 }
 
 export const updateItemTitle = async (id: number, newTitle: string) => {
-    return await Products.update({ title: newTitle }, { where: { id } });
+  return await Products.update({ title: newTitle }, { where: { id } });
 };
 
 export const updateProduct = async (
-    id: number,
-    attributes: Partial<ProductsAttributes>
+  id: number,
+  attributes: Partial<ProductsAttributes>
 ) => {
-    return await Products.update(attributes, { where: { id } });
+  return await Products.update(attributes, { where: { id } });
 };
 
 export const updateItem = async (id: number, amazonItem: NewProduct) => {
-    await Products.update(amazonItem, {
-        where: { id },
-    });
-    return amazonItem;
+  await Products.update(amazonItem, {
+    where: { id },
+  });
+  return amazonItem;
 };

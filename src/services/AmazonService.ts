@@ -38,6 +38,7 @@ export const getAmazonItem = async (asin: string) => {
     ).data as RawAmazonRequestBody;
 };
 
+// [matt] DONE
 export const getUsage = async () => {
     const params = {
         api_key: process.env.RAINFOREST_KEY,

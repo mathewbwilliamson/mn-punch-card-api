@@ -32,11 +32,13 @@ export class AmazonController {
         return await refreshAllItems();
     }
 
+    // [matt] FINISHED
     @Get('/api/amazon/usage')
     async getUsage() {
         return getUsage();
     }
 
+    // [matt] FINISHED
     @Get('/api/amazon')
     async getAll() {
         return await getAllProducts();
@@ -48,7 +50,7 @@ export class AmazonController {
     }
 
     @Get('/api/amazon/:asin')
-    async get(@Param('asin') asin: string) {
+        async get(@Param('asin') asin: string) {
         const asinQuery = asin;
         const rawAmazonItem = await getAmazonItem(asinQuery);
         return transformItem(rawAmazonItem);
