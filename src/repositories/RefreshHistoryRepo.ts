@@ -18,6 +18,7 @@ export function saveItemInRefreshHistory(
     errorMessage: `${requestInfo.errorMessage}`,
     asin: productToSave.asin,
     success: `${requestInfo.success}`,
+    newRewardCardPrice: productToSave.rewardCardPrice,
   };
 
   return RefreshHistory.create(newRefreshHistoryProduct).catch((err) =>
