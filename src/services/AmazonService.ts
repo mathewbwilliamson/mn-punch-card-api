@@ -4,6 +4,7 @@ import {
   transformItem,
   getAllProducts,
   getProductMetadata,
+  getSingleProduct,
 } from '../repositories/AmazonRepo';
 import { RawAmazonRequestBody, ItemError } from '../types/amazonTypes';
 import axios from 'axios';
@@ -130,6 +131,15 @@ export const getAmazonItemAndUpdate = async (
 
 const sleep = (milliseconds: number) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
+};
+
+export const refreshSingleItem = async (
+  id: number,
+  newAsin: string,
+  newTitle?: string
+) => {
+  const oldProduct = await getSingleProduct(id);
+  return await getAmazonItemAndUpdate(id, newAsin, newTitle, oldProduct);
 };
 
 export const refreshAllItems = async () => {

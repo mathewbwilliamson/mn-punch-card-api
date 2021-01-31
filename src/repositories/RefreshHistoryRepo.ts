@@ -19,6 +19,7 @@ export function saveItemInRefreshHistory(
     asin: productToSave.asin,
     success: `${requestInfo.success}`,
     newRewardCardPrice: productToSave.rewardCardPrice,
+    oldRewardCardPrice: oldProduct.rewardCardPrice,
   };
 
   return RefreshHistory.create(newRefreshHistoryProduct).catch((err) =>

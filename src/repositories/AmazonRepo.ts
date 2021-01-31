@@ -47,6 +47,16 @@ export const getAllProducts = () => {
   });
 };
 
+export const getSingleProduct = (id: number) => {
+  return Products.findOne({
+    where: {
+      id,
+      isDeleted: null,
+    },
+    raw: true,
+  });
+};
+
 export const getProductMetadata = () => {
   return db.sequelize.query(
     'SELECT asin, id, title, rewardCardPrice FROM Products WHERE isDeleted IS NULL'
