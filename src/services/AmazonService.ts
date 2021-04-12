@@ -5,20 +5,20 @@ import {
   getAllProducts,
   getProductMetadata,
   getSingleProduct,
-} from '../repositories/AmazonRepo';
-import { RawAmazonRequestBody, ItemError } from '../types/amazonTypes';
-import axios from 'axios';
+} from "../repositories/AmazonRepo";
+import { RawAmazonRequestBody, ItemError } from "../types/amazonTypes";
+import axios from "axios";
 import {
   RainforestAccountRequest,
   RainforestAccountData,
-} from '../types/generalTypes';
-import { getSeedAmazonItem, getAllSeedAsins } from '../seed/seedDataForTesting';
+} from "../types/generalTypes";
+import { getSeedAmazonItem, getAllSeedAsins } from "../seed/seedDataForTesting";
 import {
   isRefreshHistoryReadyToRun,
   saveItemInRefreshHistory,
-} from '../repositories/RefreshHistoryRepo';
-import { NewProduct, Product } from '../types/productTypes';
-import { logger } from '../index';
+} from "../repositories/RefreshHistoryRepo";
+import { NewProduct, Product } from "../types/productTypes";
+import { logger } from "../index";
 
 export const getAmazonItem = async (asin: string) => {
   if (!asin) {
@@ -26,14 +26,14 @@ export const getAmazonItem = async (asin: string) => {
   }
   const params = {
     api_key: process.env.RAINFOREST_KEY,
-    type: 'product',
-    amazon_domain: 'amazon.com',
+    type: "product",
+    amazon_domain: "amazon.com",
     asin,
   };
   return (
     await axios({
-      method: 'GET',
-      url: 'https://api.rainforestapi.com/request',
+      method: "GET",
+      url: "https://api.rainforestapi.com/request",
       params,
     })
   ).data as RawAmazonRequestBody;
@@ -46,8 +46,8 @@ export const getUsage = async () => {
   };
   const rainforestAccountReq = (
     await axios({
-      method: 'GET',
-      url: 'https://api.rainforestapi.com/account',
+      method: "GET",
+      url: "https://api.rainforestapi.com/account",
       params,
     })
   ).data as RainforestAccountRequest;
@@ -70,14 +70,15 @@ export const getAndSaveAmazonItem = async (asin: string, title?: string) => {
 };
 
 export const getItemError = (
-  item: NewProduct,
-  amazonItem: RawAmazonRequestBody
+  amazonItem: RawAmazonRequestBody,
+  item?: NewProduct
 ) => {
-  if (isNaN(item.price)) {
-    return 'The price does not exist.';
+  if (!amazonItem.request_info.success && amazonItem.request_info.message) {
+    return amazonItem.request_info.message.slice(0, 60);
   }
-  if (amazonItem.request_info.message) {
-    return amazonItem.request_info.message;
+
+  if (isNaN(item.price)) {
+    return "The price does not exist.";
   }
 };
 
@@ -106,10 +107,10 @@ export const getAmazonItemAndUpdate = async (
       amazonItem = await getAmazonItem(asin);
       n += 1;
     }
+    const transformedItem =
+      !!amazonItem.request_info.success && transformItem(amazonItem, title);
 
-    const transformedItem = transformItem(amazonItem, title);
-
-    const errorMessage = getItemError(transformedItem, amazonItem);
+    const errorMessage = getItemError(amazonItem, transformedItem);
     const errorObject: ItemError = {
       errorMessage,
       success: !errorMessage,
@@ -154,7 +155,7 @@ export const refreshAllItems = async () => {
   }
 
   const allProducts = (await getProductMetadata()) as [
-    Pick<Product, 'id' | 'asin' | 'title' | 'rewardCardPrice'>[],
+    Pick<Product, "id" | "asin" | "title" | "rewardCardPrice">[],
     string
   ];
   /**
