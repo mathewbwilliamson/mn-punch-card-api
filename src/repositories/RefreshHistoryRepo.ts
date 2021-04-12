@@ -1,13 +1,13 @@
-import { NewProduct, Product } from '../types/productTypes';
+import { NewProduct, Product } from "../types/productTypes";
 import {
   RefreshHistoryCreationAttributes,
   RefreshHistory,
   RefreshHistoryAttributes,
-} from '../../models/RefreshHistory';
-import { ItemError } from '../types/amazonTypes';
-import { logger } from '../index';
-import db from '../../models';
-import dayjs from 'dayjs';
+} from "../../models/RefreshHistory";
+import { ItemError } from "../types/amazonTypes";
+import { logger } from "../index";
+import db from "../../models";
+import dayjs from "dayjs";
 
 export function saveItemInRefreshHistory(
   productToSave: NewProduct,
@@ -18,7 +18,9 @@ export function saveItemInRefreshHistory(
     errorMessage: `${requestInfo.errorMessage}`,
     asin: productToSave.asin,
     success: `${requestInfo.success}`,
-    newRewardCardPrice: productToSave.rewardCardPrice,
+    newRewardCardPrice: isNaN(productToSave.rewardCardPrice)
+      ? 0
+      : productToSave.rewardCardPrice,
     oldRewardCardPrice: oldProduct.rewardCardPrice,
   };
 
@@ -43,9 +45,9 @@ export async function getAllRefreshHistory() {
 const refreshHistoryLastUpdated = async () => {
   return (
     await db.sequelize.query(
-      'SELECT id, createdAt FROM RefreshHistories ORDER BY createdAt DESC'
+      "SELECT id, createdAt FROM RefreshHistories ORDER BY createdAt DESC"
     )
-  )[0] as Pick<RefreshHistoryAttributes, 'id' | 'createdAt'>[];
+  )[0] as Pick<RefreshHistoryAttributes, "id" | "createdAt">[];
 };
 
 /**
@@ -54,7 +56,7 @@ const refreshHistoryLastUpdated = async () => {
 export const isRefreshHistoryReadyToRun = async () => {
   const lastUpdated = (await refreshHistoryLastUpdated())[0].createdAt;
   const isInLastFiveMinutes = dayjs()
-    .subtract(5, 'minute')
+    .subtract(5, "minute")
     .isBefore(dayjs(lastUpdated));
   return !isInLastFiveMinutes;
 };
