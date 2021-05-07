@@ -8,7 +8,7 @@ import expressPino from "express-pino-logger";
 console.log("\x1b[42m%s \x1b[0m", "FIXME: [matt] HI 1");
 // import dotenv from "dotenv";
 // dotenv.config();
-require("dotenv").config();
+require("dotenv").config({ path: "./.env" });
 
 console.log("\x1b[42m%s \x1b[0m", "FIXME: [matt] 2");
 // Controller imports
