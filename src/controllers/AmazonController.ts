@@ -25,7 +25,6 @@ import {
 } from "../repositories/AmazonRepo";
 import { NewProduct } from "../types/productTypes";
 import { ProductsAttributes } from "../../models/Products";
-import { logger } from "src";
 
 @JsonController()
 export class AmazonController {
@@ -43,7 +42,6 @@ export class AmazonController {
   // [matt] FINISHED
   @Get("/api/amazon")
   async getAll() {
-    logger.info("Get All Products");
     console.log("\x1b[41m%s \x1b[0m", "FIXME: [matt] getAll");
     return await getAllProducts();
   }
