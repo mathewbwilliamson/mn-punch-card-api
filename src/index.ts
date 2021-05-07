@@ -27,7 +27,12 @@ export const logger = pino(
 );
 const expressLogger = expressPino({ logger });
 
-console.log("\x1b[41m%s \x1b[0m", "FIXME: [matt] 3 PORT", process.env.PORT);
+console.log(
+  "\x1b[41m%s \x1b[0m",
+  "FIXME: [matt] 3 PORT",
+  process.env.PORT,
+  process.env.API_PORT
+);
 // creates express app, registers all controller routes and returns you express app instance
 const app = createExpressServer({
   cors: true,
