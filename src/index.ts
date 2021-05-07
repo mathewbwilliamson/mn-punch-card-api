@@ -6,8 +6,10 @@ import pino from "pino";
 import expressPino from "express-pino-logger";
 
 console.log("\x1b[42m%s \x1b[0m", "FIXME: [matt] HI 1");
-import dotenv from "dotenv";
-dotenv.config();
+// import dotenv from "dotenv";
+// dotenv.config();
+require("dotenv").config();
+
 console.log("\x1b[42m%s \x1b[0m", "FIXME: [matt] 2");
 // Controller imports
 import { AmazonController } from "./controllers/AmazonController";
