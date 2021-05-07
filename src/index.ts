@@ -41,8 +41,10 @@ const app = createExpressServer({
 console.log("\x1b[41m%s \x1b[0m", "FIXME: [matt] 4");
 
 app.use(expressLogger);
+console.log("\x1b[41m%s \x1b[0m", "FIXME: [matt] 5");
 
 app.use(bodyParser.urlencoded({ extended: false }));
+console.log("\x1b[41m%s \x1b[0m", "FIXME: [matt] 6");
 
 app.use((err: Error, req: Express.Request, res: any, next: NextFunction) => {
   if (res.headersSent) {
@@ -51,6 +53,7 @@ app.use((err: Error, req: Express.Request, res: any, next: NextFunction) => {
   res.status(500);
   console.log("\x1b[43m%s \x1b[0m", "ERROR", err);
 });
+console.log("\x1b[41m%s \x1b[0m", "FIXME: [matt] 7");
 
 app.listen(process.env.API_PORT, () => {
   logger.info(`Server listening on port ${process.env.API_PORT}!`);

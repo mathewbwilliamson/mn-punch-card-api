@@ -1,9 +1,9 @@
-import { RawAmazonRequestBody } from '../types/amazonTypes';
-import { NewProduct, Product } from '../types/productTypes';
-import { calculateRewardCardPrice } from '../utils/calculateRewardCardPrice';
-import { Products, ProductsAttributes } from '../../models/Products';
-import db from '../../models';
-import { logger } from '../index';
+import { RawAmazonRequestBody } from "../types/amazonTypes";
+import { NewProduct, Product } from "../types/productTypes";
+import { calculateRewardCardPrice } from "../utils/calculateRewardCardPrice";
+import { Products, ProductsAttributes } from "../../models/Products";
+import db from "../../models";
+import { logger } from "../index";
 
 export const transformItem = (
   amazonItem: RawAmazonRequestBody,
@@ -20,8 +20,8 @@ export const transformItem = (
     title: title || amazonItem.product.title,
     link: `${amazonItem.product.link}/ref=as_li_tl?ie=UTF8&tag=newtamparewar-20`,
     createdAt: new Date().toString(),
-    createdBy: 'ME', // [matt] THIS NEEDS TO CHANGE
-    updateSource: 'manual',
+    createdBy: "ME", // [matt] THIS NEEDS TO CHANGE
+    updateSource: "manual",
   };
   return transformedItem;
 };
@@ -39,6 +39,7 @@ export function saveItem(amazonItem: NewProduct) {
 }
 
 export const getAllProducts = () => {
+  console.log("\x1b[43m%s \x1b[0m", "FIXME: [matt] GET ALL");
   return Products.findAll({
     where: {
       isDeleted: null,
@@ -59,7 +60,7 @@ export const getSingleProduct = (id: number) => {
 
 export const getProductMetadata = () => {
   return db.sequelize.query(
-    'SELECT asin, id, title, rewardCardPrice FROM Products WHERE isDeleted IS NULL'
+    "SELECT asin, id, title, rewardCardPrice FROM Products WHERE isDeleted IS NULL"
   );
 };
 

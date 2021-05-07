@@ -7,7 +7,7 @@ import {
   Put,
   Delete,
   JsonController,
-} from 'routing-controllers';
+} from "routing-controllers";
 import {
   getAmazonItem,
   getAndSaveAmazonItem,
@@ -15,74 +15,77 @@ import {
   refreshAllItems,
   getUsage,
   refreshSingleItem,
-} from '../services/AmazonService';
+} from "../services/AmazonService";
 import {
   getAllProducts,
   transformItem,
   saveItem,
   deleteItem,
   updateProduct,
-} from '../repositories/AmazonRepo';
-import { NewProduct } from '../types/productTypes';
-import { ProductsAttributes } from '../../models/Products';
+} from "../repositories/AmazonRepo";
+import { NewProduct } from "../types/productTypes";
+import { ProductsAttributes } from "../../models/Products";
+import { logger } from "src";
 
 @JsonController()
 export class AmazonController {
-  @Post('/api/amazon/refresh')
+  @Post("/api/amazon/refresh")
   async refreshAll() {
     return await refreshAllItems();
   }
 
   // [matt] FINISHED
-  @Get('/api/amazon/usage')
+  @Get("/api/amazon/usage")
   async getUsage() {
     return getUsage();
   }
 
   // [matt] FINISHED
-  @Get('/api/amazon')
+  @Get("/api/amazon")
   async getAll() {
+    logger.info("Get All Products");
+    console.log("\x1b[41m%s \x1b[0m", "FIXME: [matt] getAll");
     return await getAllProducts();
   }
 
-  @Post('/api/amazon')
+  @Post("/api/amazon")
   async postProduct(@Body() newProduct: NewProduct) {
     return await saveItem(newProduct);
   }
 
-  @Get('/api/amazon/:asin')
-  async get(@Param('asin') asin: string) {
+  @Get("/api/amazon/:asin")
+  async get(@Param("asin") asin: string) {
     const asinQuery = asin;
     const rawAmazonItem = await getAmazonItem(asinQuery);
     return transformItem(rawAmazonItem);
   }
 
-  @Post('/api/amazon/:asin')
+  @Post("/api/amazon/:asin")
   async post(
-    @Param('asin') asin: string,
+    @Param("asin") asin: string,
     @Body() titleBody: { title: string }
   ) {
     return await getAndSaveAmazonItem(asin, titleBody.title);
   }
 
-  @Post('/api/amazon/refresh/:id')
+  @Post("/api/amazon/refresh/:id")
   async refresh(
-    @Param('id') id: number,
+    @Param("id") id: number,
     @Body() titleBody: { asin: string; title: string }
   ) {
     return await refreshSingleItem(id, titleBody.asin, titleBody.title);
   }
 
-  @Put('/api/amazon/:id')
+  @Put("/api/amazon/:id")
   async put(
-    @Param('id') id: number,
+    @Param("id") id: number,
     @Body() body: { productAttributes: ProductsAttributes }
   ) {
     return await updateProduct(id, body.productAttributes);
   }
 
-  @Delete('/api/amazon/:id')
-  async remove(@Param('id') id: number) {
+  @Delete("/api/amazon/:id")
+  async remove(@Param("id") id: number) {
     return await deleteItem(id);
   }
 }
