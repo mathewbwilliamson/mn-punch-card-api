@@ -1,25 +1,27 @@
 # Deployment
 
--   Right now, a very manual process.
--   Don't forget that Dev DB should be pointed at here. Env here should connect to Dev.
+- All of the below is no longer needed. Azure hosting is being used.
 
--   Go to their terminal and git pull.
--   npm i if needed => npm run build if needed
--   PM2: /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2
+- Right now, a very manual process.
+- Don't forget that Dev DB should be pointed at here. Env here should connect to Dev.
 
-*   Create an Instance
+- Go to their terminal and git pull.
+- npm i if needed => npm run build if needed
+- PM2: /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2
 
--   From within the repositories/mn-punch-card-api folder
--   /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2 start ./src/index.ts
+* Create an Instance
 
-*   List all apps
+- From within the repositories/mn-punch-card-api folder
+- /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2 start ./src/index.ts
 
--   /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2 list
+* List all apps
 
-*   Restart app
+- /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2 list
 
--   /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2 restart 0
+* Restart app
 
-*   List all the logs
+- /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2 restart 0
 
--   /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2 logs
+* List all the logs
+
+- /home/newtampa/repositories/localPm2/node_modules/pm2/bin/pm2 logs

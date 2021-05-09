@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/566e7260-f5d8-4b74-8e30-95535a965218/resourceGroups/MathnasiumRewardCabinet/providers/Microsoft.Web/sites/MathnasiumRewardCabinetApi",
+    "appService.deploySubpath": "."
+}

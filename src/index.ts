@@ -62,6 +62,6 @@ app.use((err: Error, req: Express.Request, res: any, next: NextFunction) => {
 });
 console.log("\x1b[41m%s \x1b[0m", "FIXME: [matt] 7");
 
-app.listen(process.env.API_PORT, () => {
-  logger.info(`Server listening on port ${process.env.API_PORT}!`);
+app.listen(process.env.PORT, () => {
+  logger.info(`Server listening on port ${process.env.PORT}!`);
 });
