@@ -6,9 +6,10 @@ import { createExpressServer } from "routing-controllers";
 import { NextFunction } from "express";
 import winston from "winston";
 import { LoggingMiddleware } from "./middleware/LoggingMiddleware";
-import { loggerFormat } from "./config/loggerConfigs";
+import { loggerFormatProd, loggerFormatDev } from "./config/loggerConfigs";
 
 require("dotenv").config({ path: "./.env" });
+import { envPort, envIsDebug } from "./config/envImports";
 
 appInsights.setup().start();
 
@@ -23,7 +24,7 @@ export const logger = winston.createLogger({
     new winston.transports.Console(),
     new winston.transports.File({ filename: "./logs/newlogs.log" }),
   ],
-  format: loggerFormat,
+  format: !!envIsDebug ? loggerFormatDev : loggerFormatProd,
 });
 
 // Controller imports
@@ -61,6 +62,6 @@ app.use((err: Error, req: Express.Request, res: any, next: NextFunction) => {
   res.status(500);
 });
 
-app.listen(process.env.PORT, () => {
-  logger.info(`Server listening on port ${process.env.PORT}!`);
+app.listen(envPort, () => {
+  logger.info(`Server listening on port ${envPort}!`);
 });

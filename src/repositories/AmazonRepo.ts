@@ -3,7 +3,7 @@ import { NewProduct, Product } from "../types/productTypes";
 import { calculateRewardCardPrice } from "../utils/calculateRewardCardPrice";
 import { Products, ProductsAttributes } from "../../models/Products";
 import db from "../../models";
-// import { logger } from "../index";
+import { logger } from "../index";
 
 export const transformItem = (
   amazonItem: RawAmazonRequestBody,
@@ -36,11 +36,12 @@ export const saveAmazonItem = (
 
 // LOGGER THE ERROR
 export function saveItem(amazonItem: NewProduct) {
-  return Products.create(amazonItem).catch((err) => console.error(err));
+  return Products.create(amazonItem).catch((err) =>
+    logger.error(JSON.stringify(err))
+  );
 }
 
 export const getAllProducts = () => {
-  console.log("\x1b[43m%s \x1b[0m", "FIXME: [matt] GET ALL");
   return Products.findAll({
     where: {
       isDeleted: null,
