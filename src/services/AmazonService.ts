@@ -18,7 +18,6 @@ import {
   saveItemInRefreshHistory,
 } from "../repositories/RefreshHistoryRepo";
 import { NewProduct, Product } from "../types/productTypes";
-import { logger } from "../index";
 
 export const getAmazonItem = async (asin: string) => {
   if (!asin) {
@@ -145,9 +144,10 @@ export const refreshSingleItem = async (
 
 export const refreshAllItems = async () => {
   const usage = await getUsage();
-  logger.info(
-    `The refresh is going to happen with the following starting points: Credits Remaining = ${usage.creditsRemaining} and Credits Used = ${usage.creditsUsed}.`
-  );
+  // LOGGER
+  // logger.info(
+  //   `The refresh is going to happen with the following starting points: Credits Remaining = ${usage.creditsRemaining} and Credits Used = ${usage.creditsUsed}.`
+  // );
   const isRefreshReady = await isRefreshHistoryReadyToRun();
 
   if (!isRefreshReady) {
@@ -177,8 +177,9 @@ export const refreshAllItems = async () => {
   );
 
   const postUsage = await getUsage();
-  logger.info(
-    `The refresh has happened with the following end points: Credits Remaining = ${postUsage.creditsRemaining} and Credits Used = ${postUsage.creditsUsed}.`
-  );
+  // LOGGER
+  // logger.info(
+  //   `The refresh has happened with the following end points: Credits Remaining = ${postUsage.creditsRemaining} and Credits Used = ${postUsage.creditsUsed}.`
+  // );
   return awaitedProductsData;
 };

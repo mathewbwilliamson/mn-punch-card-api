@@ -2,6 +2,8 @@
 
 - All of the below is no longer needed. Azure hosting is being used.
 
+---
+
 - Right now, a very manual process.
 - Don't forget that Dev DB should be pointed at here. Env here should connect to Dev.
 

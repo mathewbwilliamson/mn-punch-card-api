@@ -42,7 +42,6 @@ export class AmazonController {
   // [matt] FINISHED
   @Get("/api/amazon")
   async getAll() {
-    console.log("\x1b[41m%s \x1b[0m", "FIXME: [matt] getAll");
     return await getAllProducts();
   }
 
