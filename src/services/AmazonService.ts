@@ -102,24 +102,42 @@ export const getAmazonItemAndUpdate = async (
   title?: string,
   oldProduct?: Partial<Product>
 ) => {
+  logger.info(
+    `Item to be Refreshed=> id: ${id}, asin: ${asin}, title: ${title}, oldProduct: ${JSON.stringify(
+      oldProduct
+    )}`
+  );
+
   if (!id || !asin) {
     return;
   }
   try {
-    let amazonItem = (await getAmazonItem(asin)) as RawAmazonRequestBody;
+    const RETRIES = 5;
+
+    let amazonItem = await getAmazonItem(asin);
+    logger.info(`Try: -1 => ${JSON.stringify(amazonItem)}`);
+
     // The API kinda sucks so try the server multiple times on an item if it fails
     // Note, one time there was so many failures that half of the things were gone!
     let n = 0;
-    while (!amazonItem.request_info.success && n < 1) {
+    while (!amazonItem.request_info.success && n < RETRIES) {
       await sleep(3000);
       amazonItem = await getAmazonItem(asin);
+
+      logger.info(`Try: ${n} => ${JSON.stringify(amazonItem)}`);
+
       n += 1;
     }
     const transformedItem =
       !!amazonItem.request_info.success && transformItem(amazonItem, title);
 
+    logger.info(`TransformedItem => ${JSON.stringify(transformedItem)}`);
+
     const errorMessage = getItemError(amazonItem, transformedItem);
     const errorObject: ItemError = {
+      originalItemId: id,
+      itemAsin: asin,
+      originalItemTitle: title,
       errorMessage,
       success: !errorMessage,
     };
@@ -127,14 +145,19 @@ export const getAmazonItemAndUpdate = async (
     await saveItemInRefreshHistory(transformedItem, errorObject, oldProduct);
 
     if (!errorObject.success) {
+      logger.info(`ErrorMessage and Object => ${JSON.stringify(errorObject)}`);
       return errorObject;
     }
 
     if (!errorObject?.errorMessage) {
+      logger.info(
+        `Saved TransformedItem => ${JSON.stringify(transformedItem)}`
+      );
+
       return await updateItem(id, transformedItem);
     }
   } catch (err) {
-    throw err;
+    logger.error(JSON.stringify(err));
   }
 };
 
@@ -155,7 +178,7 @@ export const refreshAllItems = async () => {
   const usage = await getUsage();
 
   logger.info(
-    `The refresh is going to happen with the following starting points: Credits Remaining = ${usage.creditsRemaining} and Credits Used = ${usage.creditsUsed}.`
+    `The refreshAllItems is going to happen with the following starting points: Credits Remaining = ${usage.creditsRemaining} and Credits Used = ${usage.creditsUsed}.`
   );
   const isRefreshReady = await isRefreshHistoryReadyToRun();
 
@@ -186,9 +209,9 @@ export const refreshAllItems = async () => {
   );
 
   const postUsage = await getUsage();
-  // LOGGER
-  // logger.info(
-  //   `The refresh has happened with the following end points: Credits Remaining = ${postUsage.creditsRemaining} and Credits Used = ${postUsage.creditsUsed}.`
-  // );
+
+  logger.info(
+    `The refreshAll has happened with the following end points: Credits Remaining = ${postUsage.creditsRemaining} and Credits Used = ${postUsage.creditsUsed}.`
+  );
   return awaitedProductsData;
 };
