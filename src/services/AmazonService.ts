@@ -18,8 +18,11 @@ import {
   saveItemInRefreshHistory,
 } from "../repositories/RefreshHistoryRepo";
 import { NewProduct, Product } from "../types/productTypes";
+import { logger } from "../index";
 
 export const getAmazonItem = async (asin: string) => {
+  logger.info(`getAmazonItem: ${asin}`);
+
   if (!asin) {
     return;
   }
@@ -40,6 +43,8 @@ export const getAmazonItem = async (asin: string) => {
 
 // [matt] DONE
 export const getUsage = async () => {
+  logger.info(`getUsage`);
+
   const params = {
     api_key: process.env.RAINFOREST_KEY,
   };
@@ -51,6 +56,8 @@ export const getUsage = async () => {
     })
   ).data as RainforestAccountRequest;
 
+  logger.info(`getUsage Response: ${JSON.stringify(rainforestAccountReq)}`);
+
   return {
     creditsUsed: rainforestAccountReq.account_info.credits_used,
     creditsRemaining: rainforestAccountReq.account_info.credits_remaining,
@@ -61,6 +68,8 @@ export const getUsage = async () => {
 };
 
 export const getAndSaveAmazonItem = async (asin: string, title?: string) => {
+  logger.info(`getAndSaveAmazonItem: ${asin} ${title}`);
+
   const amazonItem = await getAmazonItem(asin);
 
   // need to call repo and save the item in the DB
@@ -144,10 +153,10 @@ export const refreshSingleItem = async (
 
 export const refreshAllItems = async () => {
   const usage = await getUsage();
-  // LOGGER
-  // logger.info(
-  //   `The refresh is going to happen with the following starting points: Credits Remaining = ${usage.creditsRemaining} and Credits Used = ${usage.creditsUsed}.`
-  // );
+
+  logger.info(
+    `The refresh is going to happen with the following starting points: Credits Remaining = ${usage.creditsRemaining} and Credits Used = ${usage.creditsUsed}.`
+  );
   const isRefreshReady = await isRefreshHistoryReadyToRun();
 
   if (!isRefreshReady) {
