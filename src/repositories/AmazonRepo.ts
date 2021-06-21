@@ -81,12 +81,6 @@ export const updateProduct = async (
 };
 
 export const updateItem = async (id: number, amazonItem: NewProduct) => {
-  console.log(
-    "\x1b[42m%s \x1b[0m",
-    "FIXME: [matt] id, amazonItem",
-    id,
-    amazonItem
-  );
   await Products.update(amazonItem, {
     where: { id },
   });

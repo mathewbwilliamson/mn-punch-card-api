@@ -112,7 +112,7 @@ export const getAmazonItemAndUpdate = async (
     return;
   }
   try {
-    const RETRIES = 1; // TODO Make it 4
+    const RETRIES = 4;
 
     let amazonItem = await getAmazonItem(asin);
     logger.info(`Try: -1 => ${JSON.stringify(amazonItem)}`);
