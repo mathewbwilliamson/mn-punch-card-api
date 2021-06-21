@@ -112,7 +112,7 @@ export const getAmazonItemAndUpdate = async (
     return;
   }
   try {
-    const RETRIES = 5;
+    const RETRIES = 1; // TODO Make it 4
 
     let amazonItem = await getAmazonItem(asin);
     logger.info(`Try: -1 => ${JSON.stringify(amazonItem)}`);
@@ -146,6 +146,9 @@ export const getAmazonItemAndUpdate = async (
 
     if (!errorObject.success) {
       logger.info(`ErrorMessage and Object => ${JSON.stringify(errorObject)}`);
+      const oldItem = await getSingleProduct(id);
+
+      await updateItem(id, { ...oldItem, isHidden: true, errorMessage });
       return errorObject;
     }
 

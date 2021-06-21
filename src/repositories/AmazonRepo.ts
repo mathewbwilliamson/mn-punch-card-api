@@ -34,7 +34,6 @@ export const saveAmazonItem = (
   saveItem(transformedItem);
 };
 
-// LOGGER THE ERROR
 export function saveItem(amazonItem: NewProduct) {
   return Products.create(amazonItem).catch((err) =>
     logger.error(JSON.stringify(err))
@@ -82,6 +81,12 @@ export const updateProduct = async (
 };
 
 export const updateItem = async (id: number, amazonItem: NewProduct) => {
+  console.log(
+    "\x1b[42m%s \x1b[0m",
+    "FIXME: [matt] id, amazonItem",
+    id,
+    amazonItem
+  );
   await Products.update(amazonItem, {
     where: { id },
   });
