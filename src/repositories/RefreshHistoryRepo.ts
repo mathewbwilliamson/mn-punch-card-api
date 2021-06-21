@@ -5,9 +5,9 @@ import {
   RefreshHistoryAttributes,
 } from "../../models/RefreshHistory";
 import { ItemError } from "../types/amazonTypes";
-import { logger } from "../index";
 import db from "../../models";
 import dayjs from "dayjs";
+import { logger } from "../index";
 
 export function saveItemInRefreshHistory(
   productToSave: NewProduct,
@@ -25,7 +25,7 @@ export function saveItemInRefreshHistory(
   };
 
   return RefreshHistory.create(newRefreshHistoryProduct).catch((err) =>
-    logger.error(err)
+    logger.error(JSON.stringify(err))
   );
 }
 

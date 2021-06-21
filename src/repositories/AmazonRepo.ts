@@ -35,11 +35,12 @@ export const saveAmazonItem = (
 };
 
 export function saveItem(amazonItem: NewProduct) {
-  return Products.create(amazonItem).catch((err) => logger.error(err));
+  return Products.create(amazonItem).catch((err) =>
+    logger.error(JSON.stringify(err))
+  );
 }
 
 export const getAllProducts = () => {
-  console.log("\x1b[43m%s \x1b[0m", "FIXME: [matt] GET ALL");
   return Products.findAll({
     where: {
       isDeleted: null,

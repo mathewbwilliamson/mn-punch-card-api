@@ -21,6 +21,8 @@ import { NewProduct, Product } from "../types/productTypes";
 import { logger } from "../index";
 
 export const getAmazonItem = async (asin: string) => {
+  logger.info(`getAmazonItem: ${asin}`);
+
   if (!asin) {
     return;
   }
@@ -41,6 +43,8 @@ export const getAmazonItem = async (asin: string) => {
 
 // [matt] DONE
 export const getUsage = async () => {
+  logger.info(`getUsage`);
+
   const params = {
     api_key: process.env.RAINFOREST_KEY,
   };
@@ -52,6 +56,8 @@ export const getUsage = async () => {
     })
   ).data as RainforestAccountRequest;
 
+  logger.info(`getUsage Response: ${JSON.stringify(rainforestAccountReq)}`);
+
   return {
     creditsUsed: rainforestAccountReq.account_info.credits_used,
     creditsRemaining: rainforestAccountReq.account_info.credits_remaining,
@@ -62,6 +68,8 @@ export const getUsage = async () => {
 };
 
 export const getAndSaveAmazonItem = async (asin: string, title?: string) => {
+  logger.info(`getAndSaveAmazonItem: ${asin} ${title}`);
+
   const amazonItem = await getAmazonItem(asin);
 
   // need to call repo and save the item in the DB
@@ -94,24 +102,42 @@ export const getAmazonItemAndUpdate = async (
   title?: string,
   oldProduct?: Partial<Product>
 ) => {
+  logger.info(
+    `Item to be Refreshed=> id: ${id}, asin: ${asin}, title: ${title}, oldProduct: ${JSON.stringify(
+      oldProduct
+    )}`
+  );
+
   if (!id || !asin) {
     return;
   }
   try {
-    let amazonItem = (await getAmazonItem(asin)) as RawAmazonRequestBody;
+    const RETRIES = 4;
+
+    let amazonItem = await getAmazonItem(asin);
+    logger.info(`Try: -1 => ${JSON.stringify(amazonItem)}`);
+
     // The API kinda sucks so try the server multiple times on an item if it fails
     // Note, one time there was so many failures that half of the things were gone!
     let n = 0;
-    while (!amazonItem.request_info.success && n < 1) {
+    while (!amazonItem.request_info.success && n < RETRIES) {
       await sleep(3000);
       amazonItem = await getAmazonItem(asin);
+
+      logger.info(`Try: ${n} => ${JSON.stringify(amazonItem)}`);
+
       n += 1;
     }
     const transformedItem =
       !!amazonItem.request_info.success && transformItem(amazonItem, title);
 
+    logger.info(`TransformedItem => ${JSON.stringify(transformedItem)}`);
+
     const errorMessage = getItemError(amazonItem, transformedItem);
     const errorObject: ItemError = {
+      originalItemId: id,
+      itemAsin: asin,
+      originalItemTitle: title,
       errorMessage,
       success: !errorMessage,
     };
@@ -119,14 +145,22 @@ export const getAmazonItemAndUpdate = async (
     await saveItemInRefreshHistory(transformedItem, errorObject, oldProduct);
 
     if (!errorObject.success) {
+      logger.info(`ErrorMessage and Object => ${JSON.stringify(errorObject)}`);
+      const oldItem = await getSingleProduct(id);
+
+      await updateItem(id, { ...oldItem, isHidden: true, errorMessage });
       return errorObject;
     }
 
     if (!errorObject?.errorMessage) {
+      logger.info(
+        `Saved TransformedItem => ${JSON.stringify(transformedItem)}`
+      );
+
       return await updateItem(id, transformedItem);
     }
   } catch (err) {
-    throw err;
+    logger.error(JSON.stringify(err));
   }
 };
 
@@ -145,8 +179,9 @@ export const refreshSingleItem = async (
 
 export const refreshAllItems = async () => {
   const usage = await getUsage();
+
   logger.info(
-    `The refresh is going to happen with the following starting points: Credits Remaining = ${usage.creditsRemaining} and Credits Used = ${usage.creditsUsed}.`
+    `The refreshAllItems is going to happen with the following starting points: Credits Remaining = ${usage.creditsRemaining} and Credits Used = ${usage.creditsUsed}.`
   );
   const isRefreshReady = await isRefreshHistoryReadyToRun();
 
@@ -177,8 +212,9 @@ export const refreshAllItems = async () => {
   );
 
   const postUsage = await getUsage();
+
   logger.info(
-    `The refresh has happened with the following end points: Credits Remaining = ${postUsage.creditsRemaining} and Credits Used = ${postUsage.creditsUsed}.`
+    `The refreshAll has happened with the following end points: Credits Remaining = ${postUsage.creditsRemaining} and Credits Used = ${postUsage.creditsUsed}.`
   );
   return awaitedProductsData;
 };
