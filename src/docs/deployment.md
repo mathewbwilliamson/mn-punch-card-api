@@ -1,6 +1,16 @@
 # Deployment
 
 - All of the below is no longer needed. Azure hosting is being used.
+- In VSCode, click on Azure tab.
+- In the Resource Groups, Azure Subscription 1 -> MathnasiumRewardCabinet
+- In the App Service, Azure Subscription 1 -> MathnasiumRewardCabinetApi -> Deployments.
+- Click on the Cloud Icon that says Deploy to Web App.
+
+# To Look at Logs
+
+- App Service, App Service, Azure Subscription 1 -> MathnasiumRewardCabinetApi
+- Click on files, then you can look at Logs.
+- Our logs are in newlogs.log.
 
 ---
 
