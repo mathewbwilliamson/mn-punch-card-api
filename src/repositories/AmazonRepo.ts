@@ -1,9 +1,10 @@
-import { RawAmazonRequestBody } from "../types/amazonTypes";
-import { NewProduct, Product } from "../types/productTypes";
-import { calculateRewardCardPrice } from "../utils/calculateRewardCardPrice";
-import { Products, ProductsAttributes } from "../../models/Products";
 import db from "../../models";
+import { Products, ProductsAttributes } from "../../models/Products";
+import { rewardCardPriceMultiplier } from "../config/envImports";
 import { logger } from "../index";
+import { RawAmazonRequestBody } from "../types/amazonTypes";
+import { NewProduct } from "../types/productTypes";
+import { calculateRewardCardPrice } from "../utils/calculateRewardCardPrice";
 
 export const transformItem = (
   amazonItem: RawAmazonRequestBody,
@@ -22,6 +23,7 @@ export const transformItem = (
     createdAt: new Date().toString(),
     createdBy: "ME", // [matt] THIS NEEDS TO CHANGE
     updateSource: "manual",
+    priceMultiplier: rewardCardPriceMultiplier,
   };
   return transformedItem;
 };

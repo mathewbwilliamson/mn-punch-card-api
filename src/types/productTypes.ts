@@ -15,6 +15,7 @@ export interface NewProduct {
   updateSource: string;
   errorMessage?: string;
   isHidden?: boolean;
+  priceMultiplier?: number;
 }
 
 export interface NewOrder {
