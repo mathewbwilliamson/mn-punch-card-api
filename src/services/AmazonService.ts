@@ -41,7 +41,6 @@ export const getAmazonItem = async (asin: string) => {
   ).data as RawAmazonRequestBody;
 };
 
-// [matt] DONE
 export const getUsage = async () => {
   logger.info(`getUsage`);
 

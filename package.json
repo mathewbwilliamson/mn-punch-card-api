@@ -5,8 +5,8 @@
   "main": "dist/src/index.js",
   "scripts": {
     "dev": "node --inspect=3142 -r ts-node/register ./src/index.ts",
-    "build": "npx tsc",
-    "start": "npx tsc && (node .)",
+    "build": "tsc",
+    "start": "tsc && (node .)",
     "server": "node .",
     "migration": "npx sequelize-cli db:migrate"
   },
@@ -16,8 +16,7 @@
   "devDependencies": {
     "nodemon": "^2.0.4",
     "sequelize-cli": "^6.2.0",
-    "tslint": "^6.1.2",
-    "typescript": "^3.9.6"
+    "tslint": "^6.1.2"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.2.3",
@@ -50,6 +49,7 @@
     "sequelize": "^6.3.4",
     "tedious": "^8.3.0",
     "ts-node": "^8.10.2",
+    "typescript": "^3.9.6",
     "winston": "^3.3.3",
     "winston-azure-application-insights": "^3.0.0"
   }

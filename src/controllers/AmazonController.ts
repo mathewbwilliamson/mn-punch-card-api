@@ -33,13 +33,11 @@ export class AmazonController {
     return await refreshAllItems();
   }
 
-  // [matt] FINISHED
   @Get("/api/amazon/usage")
   async getUsage() {
     return getUsage();
   }
 
-  // [matt] FINISHED
   @Get("/api/amazon")
   async getAll() {
     return await getAllProducts();
