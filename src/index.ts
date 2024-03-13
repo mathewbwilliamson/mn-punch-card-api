@@ -13,6 +13,11 @@ import { envPort, envIsDebug } from "./config/envImports";
 
 appInsights.setup().start();
 
+// TODO: Need to figure out a way to handle logs better.
+// newlogs.log is absolutely full. It is not helpful at all.
+// Create a new one each day but how will that work?
+// Use Pino instead of winston? Will that help? Where can I transport
+// the logs so that I can view them? Use Axiom to see if that would be better???
 winston.add(
   new AzureApplicationInsightsLogger({
     client: appInsights.defaultClient,
