@@ -1,3 +1,6 @@
+require("dotenv").config({ path: "./.env" });
+import { envPort, envIsDebug } from "./config/envImports";
+
 const appInsights = require("applicationinsights");
 import { AzureApplicationInsightsLogger } from "winston-azure-application-insights";
 import "reflect-metadata"; // this shim is required
@@ -7,9 +10,6 @@ import { NextFunction } from "express";
 import winston from "winston";
 import { LoggingMiddleware } from "./middleware/LoggingMiddleware";
 import { loggerFormatProd, loggerFormatDev } from "./config/loggerConfigs";
-
-require("dotenv").config({ path: "./.env" });
-import { envPort, envIsDebug } from "./config/envImports";
 
 appInsights.setup().start();
 

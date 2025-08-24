@@ -5,7 +5,7 @@ import {
     ProductOrderCreationAttributes,
 } from '../../models/ProductOrder';
 
-export function saveProductOrder(newProductOrder: NewOrder) {
+export async function saveProductOrder(newProductOrder: NewOrder) {
     const newProduct: ProductOrderCreationAttributes = {
         firstNameOfChild: newProductOrder.order.firstNameOfChild,
         lastNameOfChild: newProductOrder.order.lastNameOfChild,
@@ -26,7 +26,12 @@ export function saveProductOrder(newProductOrder: NewOrder) {
         createdAt: new Date().toISOString(),
         isOrdered: false,
     };
-    return ProductOrder.create(newProduct).catch((err) => console.log(err));
+    await ProductOrder.create(newProduct).catch((err) => {
+        console.error(err);
+        return "failure";
+    });
+
+    return "success";
 }
 
 export async function getAllOrders() {
