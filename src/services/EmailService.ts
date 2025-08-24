@@ -39,6 +39,7 @@ export const sendEmailForBuyingProduct = async (newOrder: NewOrder) => {
             `,
         };
     
+        // TODO: Need to send msg.
         const data = await mg.messages.create(mailApiDomain, {
             from: "Mailgun Sandbox <postmaster@sandbox21bd50bb72ac4ac78cbf19535d0508a5.mailgun.org>",
             to: ["Matt Williamson <mathnasiumntdb3@gmail.com>"],
