@@ -2,6 +2,9 @@
   "name": "mn-punch-card-api",
   "version": "1.0.2",
   "description": "",
+  "engines": {
+    "node": "22.x"
+  },
   "main": "dist/src/index.js",
   "scripts": {
     "dev": "node --inspect=3142 -r ts-node/register ./src/index.ts",
