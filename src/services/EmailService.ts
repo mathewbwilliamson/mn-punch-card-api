@@ -15,7 +15,8 @@ export const sendEmailForBuyingProduct = async (newOrder: NewOrder) => {
     
         const msg = {
             to: adminUsersForEmails.map((user) => user.email),
-            from: 'Reward Cabinet <email-sender@newtamparewardcabinet.com>',
+            // from: 'Reward Cabinet <email-sender@newtamparewardcabinet.com>',
+            from: 'Reward Cabinet <postmaster@sandbox21bd50bb72ac4ac78cbf19535d0508a5.mailgun.org>',
             subject: `Reward Cabinet Order: ${newOrder.order.firstNameOfChild}`,
             html: `<strong>Reward Cabinet Order</strong><br />
             Child's First Name: ${newOrder.order.firstNameOfChild}<br />
@@ -39,15 +40,9 @@ export const sendEmailForBuyingProduct = async (newOrder: NewOrder) => {
             `,
         };
     
-        // TODO: Need to send msg.
-        const data = await mg.messages.create(mailApiDomain, {
-            from: "Mailgun Sandbox <postmaster@sandbox21bd50bb72ac4ac78cbf19535d0508a5.mailgun.org>",
-            to: ["Matt Williamson <mathnasiumntdb3@gmail.com>"],
-            subject: "Hello Matt Williamson",
-            text: "Congratulations Matt Williamson, you just sent an email with Mailgun! You are truly awesome!",
-            });
+        const data = await mg.messages.create(mailApiDomain, msg);
 
-        console.log(data); // logs response data
+        console.log('sendEmailForBuyingProduct', data); // logs response data
         return 'success';
     } catch (err) {
         console.error("There was an error sending the email.", err);
