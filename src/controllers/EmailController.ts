@@ -9,7 +9,7 @@ export class EmailController {
     async buyProduct(@Body() orderMessage: { newOrder: NewOrder }) {
         await sendEmailForBuyingProduct(orderMessage.newOrder);
         await saveProductOrder(orderMessage.newOrder);
-        return 'success';
+        return "success";
     }
 
     @Get('/api/email')
