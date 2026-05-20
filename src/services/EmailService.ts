@@ -10,13 +10,12 @@ export const sendEmailForBuyingProduct = async (newOrder: NewOrder) => {
         const mailgun = new Mailgun(FormData);
         const mg = mailgun.client({
             username: "api",
-            key: mailApiKey
+            key: mailApiKey!
         });
     
         const msg = {
             to: adminUsersForEmails.map((user) => user.email),
-            // from: 'Reward Cabinet <email-sender@newtamparewardcabinet.com>',
-            from: 'Reward Cabinet <postmaster@sandbox21bd50bb72ac4ac78cbf19535d0508a5.mailgun.org>',
+            from: `Reward Cabinet <notifications@${mailApiDomain}>`,
             subject: `Reward Cabinet Order: ${newOrder.order.firstNameOfChild}`,
             html: `<strong>Reward Cabinet Order</strong><br />
             Child's First Name: ${newOrder.order.firstNameOfChild}<br />
@@ -40,7 +39,7 @@ export const sendEmailForBuyingProduct = async (newOrder: NewOrder) => {
             `,
         };
     
-        const data = await mg.messages.create(mailApiDomain, msg);
+        const data = await mg.messages.create(mailApiDomain!, msg);
 
         console.log('sendEmailForBuyingProduct', data); // logs response data
         return 'success';
