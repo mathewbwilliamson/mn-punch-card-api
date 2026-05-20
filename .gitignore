@@ -35,3 +35,5 @@ npm-debug.log
 .env
 config/config.json
 .vscode/
+logs/
+*.log
